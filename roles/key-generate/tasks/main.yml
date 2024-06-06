@@ -1,0 +1,6 @@
+- name: Generate SSH key
+  ansible.builtin.command:
+    cmd: ssh-keygen -t rsa -f /home/{{ ansible_user }}/.ssh/id_rsa -N ''
+  args:
+    creates: /home/{{ ansible_user }}/.ssh/id_rsa
+  become_user: "{{ ansible_user }}"

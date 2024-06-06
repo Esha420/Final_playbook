@@ -1,0 +1,9 @@
+- name: Copy SSH key to node1
+  ansible.builtin.command:
+    cmd: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub {{ item }}
+  with_items:
+    - 172.25.204.49
+    - 172.25.204.50
+    - 172.25.204.51
+  become_user: "{{ ansible_user }}"
+  delegate_to: localhost
