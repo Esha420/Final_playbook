@@ -7,7 +7,7 @@
     - key-generate
 
 - name: Transfer keys to the nodes 1
-  hosts: kube-spray
+  hosts: node1
   become: yes
   remote_user: kube-spray
   vars:
@@ -16,7 +16,7 @@
     - transfer-key
 
 - name: Transfer keys to the nodes 2
-  hosts: worker1
+  hosts: node2
   become: yes
   remote_user: worker1
   vars:
