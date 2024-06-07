@@ -7,7 +7,7 @@
   git:
     repo: https://github.com/kubernetes-incubator/kubespray.git
     dest: /tmp/kubespray
-    version: main
+    version: master
 
 - name: Install the required Python packages
   pip:
