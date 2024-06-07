@@ -8,7 +8,7 @@
 
 - name: Accept host key for node1
   ansible.builtin.shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
-  when: inventory_hostname == '172.25.204.49'  # Assuming 'node1' is represented by this IP address
+  when: inventory_hostname == '172.25.204.50'  # Assuming 'node2' is represented by this IP address
 
 - name: Add SSH public key to authorized_keys
   ansible.builtin.lineinfile:
