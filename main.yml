@@ -23,3 +23,22 @@
     ansible_ssh_private_key_file: "{{ inventory_dir }}/key2"
   roles:
     - transfer-key1
+
+- name: Become sudo users in all nodes
+  hosts: all
+  become: yes
+  roles:
+    - sudo-user
+
+- name: Install Python
+  hosts: node1
+  become: yes
+  roles:
+    - python
+
+- name: KubeSpray Cluster Setup
+  hosts: node1
+  become: yes
+  
+  roles:
+    - kube-spray-setup

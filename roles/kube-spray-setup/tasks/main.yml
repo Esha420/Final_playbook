@@ -1,0 +1,78 @@
+- name: Install git
+  package:
+    name: git
+    state: present
+
+- name: Clone the Kubespray repository
+  git:
+    repo: https://github.com/kubernetes-incubator/kubespray.git
+    dest: /tmp/kubespray
+    version: main
+
+- name: Install the required Python packages
+  pip:
+    name:
+      - requests
+      - jinja2
+      - pyyaml
+      - netaddr
+    state: present
+
+- name: Change directory to /tmp/kubespray
+  command: cd /tmp/kubespray
+  args:
+    chdir: /tmp/kubespray
+
+- name: Install requirements
+  pip:
+    requirements: /tmp/kubespray/requirements.txt
+
+- name: Copy inventory directory
+  ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /path/to/inventory/my-cluster
+
+- name: Install requirements
+  pip:
+    requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
+
+- name: Declare IP addresses
+  set_fact:
+    ip_list: ["node1", "node2", "node3"]
+
+- name: Ensure the inventory directory exists
+  file:
+    path: /tmp/kubespray/inventory/my-cluster
+    state: directory
+
+- name: Initialize the inventory file
+  shell: |
+    CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 contrib/inventory_builder/inventory.py {{ ip_list | join(' ') }}
+  args:
+    chdir: /tmp/kubespray
+
+- name: Execute kubespray playbook for cluster setup
+  command: ansible-playbook -i /tmp/kubespray/inventory/mycluster/hosts.yml --become --become-user=root cluster.yml
+  args:
+    chdir: /tmp/kubespray
+
+- name: Create .kube directory
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0755'
+
+- name: Copy Kubernetes admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: "{{ ansible_env.HOME }}/.kube/config"
+    owner: root
+    group: root
+    mode: '0644'
+    remote_src: yes
+
+- name: Change ownership of kube config
+  file:
+    path: "{{ ansible_env.HOME }}/.kube/config"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  become: true
