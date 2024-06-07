@@ -18,10 +18,6 @@
       - netaddr
     state: present
 
-- name: Change directory to /tmp/kubespray
-  command: cd /tmp/kubespray
-  args:
-    chdir: /tmp/kubespray
 
 - name: Install requirements
   pip:
