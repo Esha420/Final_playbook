@@ -1,41 +1,41 @@
 - name: Ensure .ssh directory exists
   ansible.builtin.file:
-    path: /home/kube-spray/.ssh
+    path: /home/{{ ansible_user }}/.ssh
     state: directory
     mode: '0700'
-    owner: kube-spray
-    group: kube-spray
+    owner: {{ ansible_user }}
+    group: {{ ansible_user }}
 
 - name: Generate SSH key
-  ansible.builtin.command: ssh-keygen -t rsa -b 2048 -f /home/kube-spray/.ssh/id_rsa -N ""
+  ansible.builtin.command: ssh-keygen -t rsa -b 2048 -f /home/{{ ansible_user }}/.ssh/id_rsa -N ""
   args:
-    creates: /home/kube-spray/.ssh/id_rsa
+    creates: /home/{{ ansible_user }}/.ssh/id_rsa
 
 - name: Ensure correct permissions on the SSH key
   ansible.builtin.file:
-    path: /home/kube-spray/.ssh/id_rsa
+    path: /home/{{ ansible_user }}/.ssh/id_rsa
     mode: '0600'
-    owner: kube-spray
-    group: kube-spray
+    owner: {{ ansible_user }}
+    group: {{ ansible_user }}
 
 - name: Ensure correct permissions on the SSH public key
   ansible.builtin.file:
-    path: /home/kube-spray/.ssh/id_rsa.pub
+    path: /home/{{ ansible_user }}/.ssh/id_rsa.pub
     mode: '0644'
-    owner: kube-spray
-    group: kube-spray
+    owner: {{ ansible_user }}
+    group: {{ ansible_user }}
 
 - name: Read the generated public key
   ansible.builtin.slurp:
-    src: /home/kube-spray/.ssh/id_rsa.pub
+    src: /home/{{ ansible_user }}/.ssh/id_rsa.pub
   register: public_key
 
 - name: Add SSH public key to authorized_keys
   ansible.builtin.lineinfile:
-    path: /home/kube-spray/.ssh/authorized_keys
+    path: /home/{{ ansible_user }}/.ssh/authorized_keys
     line: "{{ public_key['content'] | b64decode }}"
     create: yes
     mode: '0600'
-    owner: kube-spray
-    group: kube-spray
+    owner: {{ ansible_user }}
+    group: {{ ansible_user }}
 

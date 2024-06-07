@@ -32,7 +32,14 @@
 
 - name: Declare IP addresses
   ansible.builtin.shell: |
-    declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51 )
+    declare -a IPS
+    # Read the inventory file and extract IPs
+    while IFS= read -r line; do
+        if [[ $line == *"ansible_host"* ]]; then
+            ip=$(echo "$line" | awk '{print $2}' | tr -d ':')
+            IPS+=("$ip")
+        fi
+    done < machine.yml
     echo "IP addresses are: ${IPS[@]}"
   args:
     executable: /bin/bash
