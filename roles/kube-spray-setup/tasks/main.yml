@@ -32,6 +32,7 @@
 
 - name: Declare IP addresses
   ansible.builtin.shell: |
+    #!/bin/bash
     declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51 )
     echo "IP addresses are: ${IPS[@]}"
 
