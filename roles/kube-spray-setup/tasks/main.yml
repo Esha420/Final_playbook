@@ -24,7 +24,7 @@
     requirements: /tmp/kubespray/requirements.txt
 
 - name: Copy inventory directory
-  ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /path/to/inventory/my-cluster
+  ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /tmp/kubespray/inventory/my-cluster
 
 - name: Install requirements
   pip:
