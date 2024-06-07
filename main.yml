@@ -31,7 +31,7 @@
   vars:
     ansible_ssh_private_key_file: "{{ inventory_dir }}/key3"
   roles:
-    - transfer-key1
+    - transfer-key-2
 
 - name: Become sudo users in all nodes
   hosts: all
