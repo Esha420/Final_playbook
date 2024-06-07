@@ -3,8 +3,8 @@
     path: /home/{{ ansible_user }}/.ssh
     state: directory
     mode: '0700'
-    owner: {{ ansible_user }}
-    group: {{ ansible_user }}
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: Generate SSH key
   ansible.builtin.command: ssh-keygen -t rsa -b 2048 -f /home/{{ ansible_user }}/.ssh/id_rsa -N ""
@@ -15,15 +15,15 @@
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/.ssh/id_rsa
     mode: '0600'
-    owner: {{ ansible_user }}
-    group: {{ ansible_user }}
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: Ensure correct permissions on the SSH public key
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/.ssh/id_rsa.pub
     mode: '0644'
-    owner: {{ ansible_user }}
-    group: {{ ansible_user }}
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: Read the generated public key
   ansible.builtin.slurp:
@@ -36,6 +36,6 @@
     line: "{{ public_key['content'] | b64decode }}"
     create: yes
     mode: '0600'
-    owner: {{ ansible_user }}
-    group: {{ ansible_user }}
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
