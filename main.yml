@@ -6,8 +6,20 @@
   roles:
     - key-generate
 
-# - name: Transfer keys to the nodes
-#   hosts: all
-#   become: false
-#   roles:
-#     - transfer-key
+- name: Transfer keys to the nodes 1
+  hosts: kube-spray
+  become: yes
+  remote_user: kube-spray
+  vars:
+    ansible_ssh_private_key_file: "{{ inventory_dir }}/key1"
+  roles:
+    - transfer-key
+
+- name: Transfer keys to the nodes 2
+  hosts: worker1
+  become: yes
+  remote_user: worker1
+  vars:
+    ansible_ssh_private_key_file: "{{ inventory_dir }}/key2"
+  roles:
+    - transfer-key1
