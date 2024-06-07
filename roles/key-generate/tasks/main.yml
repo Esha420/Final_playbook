@@ -4,3 +4,4 @@
   args:
     creates: /home/{{ ansible_user }}/.ssh/id_rsa
   become_user: "{{ ansible_user }}"
+

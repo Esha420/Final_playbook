@@ -1,13 +1,13 @@
 ---
 - name: Generate SSH keys on nodes
-  hosts: node1
+  hosts: all
   become: yes
   
   roles:
     - key-generate
 
-- name: Transfer keys to the nodes
-  hosts: all
-  become: false
-  roles:
-    - transfer-key
+# - name: Transfer keys to the nodes
+#   hosts: all
+#   become: false
+#   roles:
+#     - transfer-key
