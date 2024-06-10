@@ -31,19 +31,19 @@
   register: public_key
 
 - name: Copy SSH key to target node1
-  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.49
+  shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub 172.25.204.49
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
   ignore_errors: true
 
 - name: Copy SSH key to target node2
-  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.50
+  shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub 172.25.204.50
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
   ignore_errors: true
 
 - name: Copy SSH key to target host
-  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.51
+  shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub 172.25.204.51
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
   ignore_errors: true
