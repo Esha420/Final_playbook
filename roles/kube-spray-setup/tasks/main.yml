@@ -39,16 +39,9 @@
   register: ips_file_stat
 
 - name: Run inventory script
-  command: python3 contrib/inventory_builder/inventory.py "{{ IPS | join(' ') }}"
+  command: python3 contrib/inventory_builder/inventory.py "{{ IPS | join(' ') }}" --config="{{ CONFIG_FILE }}"
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
-  register: inventory_result
-
-- name: Save inventory file
-  copy:
-    content: "{{ inventory_result.stdout }}"
-    dest: "{{ CONFIG_FILE }}"
-
 
 
 
