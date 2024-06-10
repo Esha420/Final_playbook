@@ -42,7 +42,7 @@
   ansible.builtin.shell: |
     declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
   # delegate_to: localhost
-  # become: false
+  become: false
   args:
     executable: /bin/bash
   when: ips_file_stat.stat.exists
@@ -62,8 +62,7 @@
   args:
     executable: /bin/bash
     chdir: /tmp/kubespray
-  owner: root
-  group: root
+  become: true
 
 # - name: Execute kubespray playbook for cluster setup
 #   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
