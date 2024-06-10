@@ -39,7 +39,7 @@
             ips=$(echo "$line" | awk '{print $2}' | tr -d '-' | tr -d ' ' | tr -d '[' | tr -d ']')
             IPS+=($ips)
         fi
-    done < ips.yml
+    done < "{{ playbook_dir }}/ips.yml"
     echo "IP addresses are: ${IPS[@]}"
   args:
     executable: /bin/bash
