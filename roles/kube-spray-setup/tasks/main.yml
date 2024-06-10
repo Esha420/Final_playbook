@@ -35,6 +35,7 @@
     path: "{{ playbook_dir }}/ips.yml"
     state: touch
   delegate_to: localhost
+  become: false
   ignore_errors: true
 
 
