@@ -50,8 +50,6 @@
 
 
 
-
-
 - name: Ensure the inventory directory exists
   file:
     path: /tmp/kubespray/inventory/my-cluster
