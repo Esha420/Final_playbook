@@ -33,16 +33,17 @@
 - name: Declare IP addresses
   ansible.builtin.shell: |
     declare -a IPS
-    # Read the inventory file and extract IPs
+    # Read the ips.yml file and extract IPs
     while IFS= read -r line; do
-        if [[ $line == *"ansible_host"* ]]; then
-            ip=$(echo "$line" | awk '{print $2}' | tr -d ':')
-            IPS+=("$ip")
+        if [[ $line == *"IPS"* ]]; then
+            ips=$(echo "$line" | awk '{print $2}' | tr -d '-' | tr -d ' ' | tr -d '[' | tr -d ']')
+            IPS+=($ips)
         fi
-    done < /home/kube-spray/Documents/machine.yml
+    done < ips.yml
     echo "IP addresses are: ${IPS[@]}"
   args:
     executable: /bin/bash
+
 
 - name: Ensure the inventory directory exists
   file:

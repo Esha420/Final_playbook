@@ -49,6 +49,8 @@
 - name: KubeSpray Cluster Setup
   hosts: node1
   become: yes
-  
+  vars_files:
+    - ips.yml
+
   roles:
     - kube-spray-setup
