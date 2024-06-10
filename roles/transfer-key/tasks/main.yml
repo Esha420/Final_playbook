@@ -34,18 +34,21 @@
   shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub kube-spray@172.25.204.49
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+    TMPDIR: "/home/{{ ansible_user }}/.ssh"
   ignore_errors: true
 
 - name: Copy SSH key to target node2
   shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub worker1@172.25.204.50
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+    TMPDIR: "/home/{{ ansible_user }}/.ssh"
   ignore_errors: true
 
 - name: Copy SSH key to target host
   shell: ssh-copy-id -i /home/{{ ansible_user }}/.ssh/id_rsa.pub worker2@172.25.204.51
   environment:
     SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+    TMPDIR: "/home/{{ ansible_user }}/.ssh"
   ignore_errors: true
 
 # - name: Add SSH public key to authorized_keys
