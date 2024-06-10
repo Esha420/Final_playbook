@@ -52,7 +52,7 @@
 
 - name: Initialize the inventory file (using template)
   template:
-    src: ips.j2
+    src: "{{ playbook_dir }}ips.j2"
     dest: "{{ playbook_dir }}/ips.yml"
   delegate_to: localhost
   become: false
