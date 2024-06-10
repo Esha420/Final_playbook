@@ -42,10 +42,11 @@
   ansible.builtin.shell: |
     declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
   # delegate_to: localhost
-  become: false
+  become: true
   args:
     executable: /bin/bash
   when: ips_file_stat.stat.exists
+
 
 
 
