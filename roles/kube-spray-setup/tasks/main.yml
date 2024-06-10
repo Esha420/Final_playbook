@@ -63,11 +63,10 @@
     else
         echo "ips.yml file does not exist"
     fi
-  delegate_to: localhost
-  become: false
   args:
     executable: /bin/bash
   when: ips_file_stat.stat.exists
+
 
 
 
