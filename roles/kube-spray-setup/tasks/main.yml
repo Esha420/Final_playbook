@@ -40,24 +40,9 @@
 
 - name: Declare IP addresses
   ansible.builtin.shell: |
-    declare -a IPS
-    if [ -f "{{ playbook_dir }}/ips.yml" ]; then
-        # Read the ips.yml file and extract IPs
-        while IFS= read -r line; do
-            if [[ $line == *"IPS:"* ]]; then
-                ips=$(echo "$line" | awk '{$1="";print}' | tr -d ' ' | tr -d '-' | tr -d '[' | tr -d ']')
-                IFS=',' read -ra ip_array <<< "$ips"
-                for ip in "${ip_array[@]}"; do
-                    IPS+=("$ip")
-                done
-            fi
-        done < "{{ playbook_dir }}/ips.yml"
-        echo "IP addresses are: ${IPS[@]}"
-    else
-        echo "ips.yml file does not exist"
-    fi
-  delegate_to: localhost
-  become: false
+    declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
+  # delegate_to: localhost
+  # become: false
   args:
     executable: /bin/bash
   when: ips_file_stat.stat.exists
