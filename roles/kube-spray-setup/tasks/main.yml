@@ -37,30 +37,51 @@
   delegate_to: localhost
   become: false
   register: ips_file_stat
+# - name: Declare IP addresses and write to temporary file
+#   template:
+#     src: "{{ playbook_dir }}/ips.yml"
+#     dest: /tmp/ips.txt
+#   become: false
+#   when: ips_file_stat.stat.exists
 
-- name: Declare IP addresses
-  ansible.builtin.shell: |
-    declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
-  become: true
-  args:
-    executable: /bin/bash
-  when: ips_file_stat.stat.exists
+- name: Load IP addresses from ips.yml
+  include_vars:
+    file: "{{ playbook_dir }}/ips.yml"
+  delegate_to: localhost
+  become: false
+
+- name: Initialize the inventory file (using template)
+  template:
+    src: ips.j2
+    dest: "{{ playbook_dir }}/ips.txt"
+  delegate_to: localhost
+  become: false
+
+
+
+# - name: Declare IP addresses
+#   ansible.builtin.shell: |
+#     declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
+#   become: true
+#   args:
+#     executable: /bin/bash
+#   when: ips_file_stat.stat.exists
 
 
 
 
-- name: Ensure the inventory directory exists
-  file:
-    path: /tmp/kubespray/inventory/my-cluster
-    state: directory
+# - name: Ensure the inventory directory exists
+#   file:
+#     path: /tmp/kubespray/inventory/my-cluster
+#     state: directory
 
-- name: Initialize the inventory file
-  ansible.builtin.shell: |
-    CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py "${IPS[@]}"
-  args:
-    executable: /bin/bash
-    chdir: /tmp/kubespray
-  become: true
+# - name: Initialize the inventory file
+#   ansible.builtin.shell: |
+#     CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py "${IPS[@]}"
+#   args:
+#     executable: /bin/bash
+#     chdir: /tmp/kubespray
+#   become: true
 
 # - name: Execute kubespray playbook for cluster setup
 #   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
