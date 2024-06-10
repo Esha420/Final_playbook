@@ -35,14 +35,18 @@
     declare -a IPS
     # Read the ips.yml file and extract IPs
     while IFS= read -r line; do
-        if [[ $line == *"IPS"* ]]; then
-            ips=$(echo "$line" | awk '{print $2}' | tr -d '-' | tr -d ' ' | tr -d '[' | tr -d ']')
-            IPS+=($ips)
+        if [[ $line == *"IPS:"* ]]; then
+            ips=$(echo "$line" | awk '{$1="";print}' | tr -d ' ' | tr -d '-' | tr -d '[' | tr -d ']')
+            IFS=',' read -ra ip_array <<< "$ips"
+            for ip in "${ip_array[@]}"; do
+                IPS+=("$ip")
+            done
         fi
     done < "{{ playbook_dir }}/ips.yml"
     echo "IP addresses are: ${IPS[@]}"
   args:
     executable: /bin/bash
+
 
 
 - name: Ensure the inventory directory exists
