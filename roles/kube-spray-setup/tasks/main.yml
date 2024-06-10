@@ -30,13 +30,6 @@
   pip:
     requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
 
-- name: Ensure ips.yml exists
-  ansible.builtin.file:
-    path: "{{ playbook_dir }}/ips.yml"
-    state: touch
-  delegate_to: localhost
-  become: false
-  ignore_errors: true
 
 - name: Ensure ips.yml exists
   ansible.builtin.stat:
@@ -63,6 +56,8 @@
     else
         echo "ips.yml file does not exist"
     fi
+  delegate_to: localhost
+  become: false
   args:
     executable: /bin/bash
   when: ips_file_stat.stat.exists
