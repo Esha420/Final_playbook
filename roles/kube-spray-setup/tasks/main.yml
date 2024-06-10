@@ -62,6 +62,8 @@
   args:
     executable: /bin/bash
     chdir: /tmp/kubespray
+  owner: root
+  group: root
 
 # - name: Execute kubespray playbook for cluster setup
 #   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml

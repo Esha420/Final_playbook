@@ -49,6 +49,5 @@
 - name: KubeSpray Cluster Setup
   hosts: node1
   become: yes
-  ansible_user: root
   roles:
     - kube-spray-setup
