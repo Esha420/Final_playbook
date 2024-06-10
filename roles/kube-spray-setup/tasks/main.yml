@@ -34,8 +34,10 @@
   ansible.builtin.file:
     path: "{{ playbook_dir }}/ips.yml"
     state: touch
-  delegate_to: "localhost"
+  delegate_to: localhost
   ignore_errors: true
+
+
 - name: Declare IP addresses
   ansible.builtin.shell: |
     declare -a IPS
@@ -50,7 +52,7 @@
         fi
     done < "{{ playbook_dir }}/ips.yml"
     echo "IP addresses are: ${IPS[@]}"
-  delegate_to: "localhost"
+  delegate_to: localhost
   args:
     executable: /bin/bash
 
