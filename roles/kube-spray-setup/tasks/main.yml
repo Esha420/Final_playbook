@@ -37,12 +37,7 @@
   delegate_to: localhost
   become: false
   register: ips_file_stat
-# - name: Declare IP addresses and write to temporary file
-#   template:
-#     src: "{{ playbook_dir }}/ips.yml"
-#     dest: /tmp/ips.txt
-#   become: false
-#   when: ips_file_stat.stat.exists
+
 
 - name: Load IP addresses from ips.yml
   include_vars:
@@ -53,9 +48,16 @@
 - name: Initialize the inventory file (using template)
   template:
     src: "{{ playbook_dir }}/ips.j2"
-    dest: "{{ playbook_dir }}/ips.yml"
+    dest: /tmp/ips.sh
   delegate_to: localhost
   become: false
+
+# - name: Declare IP addresses and write to temporary file
+#   template:
+#     src: "{{ playbook_dir }}/ips.yml"
+#     dest: /tmp/ips.txt
+#   become: false
+#   when: ips_file_stat.stat.exists
 
 
 
