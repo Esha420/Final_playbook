@@ -40,34 +40,34 @@
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node1
   ansible.builtin.blockinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    path: /path/to/inventory/file
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
-      ansible_user: kube-spray
-      ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    insertafter: '^      access_ip: 172.25.204.49'
+          ansible_user: kube-spray
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    insertafter: '^      access_ip: 172.25.204.49$'
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node2
   ansible.builtin.blockinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    path: /path/to/inventory/file
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
-      ansible_user: worker1
-      ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    insertafter: '^      access_ip: 172.25.204.50'
+          ansible_user: worker1
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    insertafter: '^      access_ip: 172.25.204.50$'
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node3
   ansible.builtin.blockinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    path: /path/to/inventory/file
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
-      ansible_user: worker2
-      ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    insertafter: '^      access_ip: 172.25.204.51'
+          ansible_user: worker2
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    insertafter: '^      access_ip: 172.25.204.51$'
 
 - name: Remove node2 from kube_control_plane
   ansible.builtin.lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    path: /path/to/inventory/file
     regexp: '^        node2:$'
     state: absent
 
