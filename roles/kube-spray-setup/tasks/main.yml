@@ -31,31 +31,29 @@
     requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
 
 - name: Ensure ips.yml exists
-  ansible.builtin.stat:
+  ansible.builtin.file:
     path: "{{ playbook_dir }}/ips.yml"
-  register: ips_file_stat
-
+    state: touch
+  delegate_to: "localhost"
+  ignore_errors: true
 - name: Declare IP addresses
   ansible.builtin.shell: |
     declare -a IPS
-    if [ -f "{{ playbook_dir }}/ips.yml" ]; then
-        # Read the ips.yml file and extract IPs
-        while IFS= read -r line; do
-            if [[ $line == *"IPS:"* ]]; then
-                ips=$(echo "$line" | awk '{$1="";print}' | tr -d ' ' | tr -d '-' | tr -d '[' | tr -d ']')
-                IFS=',' read -ra ip_array <<< "$ips"
-                for ip in "${ip_array[@]}"; do
-                    IPS+=("$ip")
-                done
-            fi
-        done < "{{ playbook_dir }}/ips.yml"
-        echo "IP addresses are: ${IPS[@]}"
-    else
-        echo "ips.yml file does not exist"
-    fi
+    # Read the ips.yml file and extract IPs
+    while IFS= read -r line; do
+        if [[ $line == *"IPS:"* ]]; then
+            ips=$(echo "$line" | awk '{$1="";print}' | tr -d ' ' | tr -d '-' | tr -d '[' | tr -d ']')
+            IFS=',' read -ra ip_array <<< "$ips"
+            for ip in "${ip_array[@]}"; do
+                IPS+=("$ip")
+            done
+        fi
+    done < "{{ playbook_dir }}/ips.yml"
+    echo "IP addresses are: ${IPS[@]}"
+  delegate_to: "localhost"
   args:
     executable: /bin/bash
-  when: ips_file_stat.stat.exists
+
 
 
 
