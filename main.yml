@@ -54,6 +54,6 @@
       - "172.25.204.49"
       - "172.25.204.50"
       - "172.25.204.51"
-    CONFIG_FILE: "inventory/mycluster/hosts.yml"
+    CONFIG_FILE: "/tmp/kubespray/inventory/mycluster/hosts.yml"
   roles:
     - kube-spray-setup
