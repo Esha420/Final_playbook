@@ -45,7 +45,7 @@
       ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
     insertafter: '      access_ip: 172.25.204.49'
-    indent: 6
+    
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node2
   ansible.builtin.blockinfile:
@@ -55,7 +55,7 @@
       ansible_user: worker1
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
     insertafter: '      access_ip: 172.25.204.50'
-    indent: 6
+    
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node3
   ansible.builtin.blockinfile:
@@ -65,7 +65,7 @@
       ansible_user: worker2
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
     insertafter: '      access_ip: 172.25.204.51'
-    indent: 6
+    
 
 - name: Remove node2 from kube_control_plane
   ansible.builtin.lineinfile:
