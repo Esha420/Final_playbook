@@ -30,12 +30,30 @@
     src: /home/{{ ansible_user }}/.ssh/id_rsa.pub
   register: public_key
 
-- name: Add SSH public key to authorized_keys
-  ansible.builtin.lineinfile:
-    path: /home/{{ ansible_user }}/.ssh/authorized_keys
-    line: "{{ public_key['content'] | b64decode }}"
-    create: yes
-    mode: '0600'
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+- name: Copy SSH key to target node1
+  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.49
+  environment:
+    SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+  ignore_errors: true
+
+- name: Copy SSH key to target node2
+  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.50
+  environment:
+    SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+  ignore_errors: true
+
+- name: Copy SSH key to target host
+  shell: ssh-copy-id -i ~/.ssh/id_rsa.pub 172.25.204.49
+  environment:
+    SSH_AUTH_SOCK: "{{ lookup('env', 'SSH_AUTH_SOCK') }}"
+  ignore_errors: true
+  
+# - name: Add SSH public key to authorized_keys
+#   ansible.builtin.lineinfile:
+#     path: /home/{{ ansible_user }}/.ssh/authorized_keys
+#     line: "{{ public_key['content'] | b64decode }}"
+#     create: yes
+#     mode: '0600'
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
 
