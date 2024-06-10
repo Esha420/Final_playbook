@@ -40,7 +40,7 @@
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node1
   ansible.builtin.blockinfile:
-    path: /path/to/inventory/file
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
           ansible_user: kube-spray
@@ -49,7 +49,7 @@
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node2
   ansible.builtin.blockinfile:
-    path: /path/to/inventory/file
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
           ansible_user: worker1
@@ -58,7 +58,7 @@
 
 - name: Add ansible_user and ansible_ssh_private_key_file to node3
   ansible.builtin.blockinfile:
-    path: /path/to/inventory/file
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     block: |
           ansible_user: worker2
@@ -67,7 +67,7 @@
 
 - name: Remove node2 from kube_control_plane
   ansible.builtin.lineinfile:
-    path: /path/to/inventory/file
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     regexp: '^        node2:$'
     state: absent
 
