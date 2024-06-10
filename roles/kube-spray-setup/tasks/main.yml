@@ -39,7 +39,7 @@
             ip=$(echo "$line" | awk '{print $2}' | tr -d ':')
             IPS+=("$ip")
         fi
-    done < machine.yml
+    done < /home/kube-spray/Documents/machine.yml
     echo "IP addresses are: ${IPS[@]}"
   args:
     executable: /bin/bash
