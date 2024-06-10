@@ -54,6 +54,7 @@
     done < "{{ playbook_dir }}/ips.yml"
     echo "IP addresses are: ${IPS[@]}"
   delegate_to: localhost
+  become: false
   args:
     executable: /bin/bash
 
