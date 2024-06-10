@@ -50,77 +50,32 @@
     dest: "{{ CONFIG_FILE }}"
 
 
-# - name: Load IP addresses from ips.yml
-#   include_vars:
-#     file: "{{ playbook_dir }}/ips.yml"
-#   delegate_to: localhost
-#   become: false
-#   register: ip_addresses
-
-# - name: Initialize the inventory file (using template)
-#   template:
-#     src: "{{ playbook_dir }}/ips.j2"
-#     dest: /tmp/ips.sh
-#   delegate_to: localhost
-#   become: true
-
-# - name: Declare IP addresses and write to temporary file
-#   template:
-#     src: "{{ playbook_dir }}/ips.yml"
-#     dest: /tmp/ips.txt
-#   become: false
-#   when: ips_file_stat.stat.exists
 
 
+- name: Execute kubespray playbook for cluster setup
+  command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
+  args:
+    chdir: /tmp/kubespray
 
-# - name: Declare IP addresses
-#   ansible.builtin.shell: |
-#     declare -a IPS=(172.25.204.49 172.25.204.50 172.25.204.51)
-#   become: true
-#   args:
-#     executable: /bin/bash
-#   when: ips_file_stat.stat.exists
+- name: Create .kube directory
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0755'
 
+- name: Copy Kubernetes admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: "{{ ansible_env.HOME }}/.kube/config"
+    owner: root
+    group: root
+    mode: '0644'
+    remote_src: yes
 
-
-
-# - name: Ensure the inventory directory exists
-#   file:
-#     path: /tmp/kubespray/inventory/my-cluster
-#     state: directory
-
-# - name: Initialize the inventory file
-#   ansible.builtin.shell: |
-#     CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py "${IPS[@]}"
-#   args:
-#     executable: /bin/bash
-#     chdir: /tmp/kubespray
-#   become: true
-
-# - name: Execute kubespray playbook for cluster setup
-#   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
-#   args:
-#     chdir: /tmp/kubespray
-
-# - name: Create .kube directory
-#   file:
-#     path: "{{ ansible_env.HOME }}/.kube"
-#     state: directory
-#     mode: '0755'
-
-# - name: Copy Kubernetes admin.conf to user's kube config
-#   copy:
-#     src: /etc/kubernetes/admin.conf
-#     dest: "{{ ansible_env.HOME }}/.kube/config"
-#     owner: root
-#     group: root
-#     mode: '0644'
-#     remote_src: yes
-
-# - name: Change ownership of kube config
-#   file:
-#     path: "{{ ansible_env.HOME }}/.kube/config"
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0644'
-#   become: true
+- name: Change ownership of kube config
+  file:
+    path: "{{ ansible_env.HOME }}/.kube/config"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  become: true
