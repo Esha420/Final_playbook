@@ -50,7 +50,7 @@
     src: "{{ playbook_dir }}/ips.j2"
     dest: /tmp/ips.sh
   delegate_to: localhost
-  become: false
+  become: true
 
 # - name: Declare IP addresses and write to temporary file
 #   template:
