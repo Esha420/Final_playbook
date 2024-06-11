@@ -3,17 +3,13 @@
     name: git
     state: present
 
-- name: Clone the Kubespray repository
+- name: Clone Kubespray repository
   git:
-    repo: "https://github.com/kubernetes-sigs/kubespray.git"
-    dest: "/tmp/kubespray"
-    version: "master"
-    force: yes
-  register: git_clone_result
-  retries: 5
-  delay: 10
-  until: git_clone_result is succeeded
-  
+    repo: https://github.com/kubernetes-sigs/kubespray.git
+    dest: /tmp/kubespray
+    version: master
+    clone: yes
+
 - name: Install the required Python packages
   pip:
     name:
