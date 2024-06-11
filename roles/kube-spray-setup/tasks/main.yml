@@ -70,10 +70,10 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: 'ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: "{{ item.insertafter }}"
+    insertbefore: "{{ item.insertbefore }}"
   loop:
-    - { insertafter: '      ansible_user: worker2' }
-    - { insertafter: '      ansible_user: worker1' }
+    - { insertbefore: '      ansible_user: worker2' }
+    - { insertbefore: '      ansible_user: worker1' }
     
 
 
