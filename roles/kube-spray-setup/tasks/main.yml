@@ -39,17 +39,20 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_user: kube-spray'
-    insertafter: "{{ item.insertafter }}"
-  loop:
-    - { insertafter: '      access_ip: 172.25.204.49' }
-    - { insertafter: '      ansible_user: worker2' }
-    - { insertafter: '      ansible_user: worker1' }
+    insertafter: '      access_ip: 172.25.204.49'
+
+
 
 - name: Add a line before a specific line
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '      ansible_user: kube-spray'
+    insertafter: "{{ item.insertafter }}"
+  loop:
+    - { insertafter: '      ansible_user: kube-spray' }
+    - { insertafter: '      ansible_user: worker2' }
+    - { insertafter: '      ansible_user: worker1' }
+  state: present
 
 - name: Add a line before a specific line
   lineinfile:
@@ -64,17 +67,6 @@
     line: '      ansible_user: worker2'
     insertafter: '      access_ip: 172.25.204.51'
 
-- name: Add a line after a specific line
-  lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '      ip: 172.25.204.50'
-
-- name: Add a line after a specific line
-  lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '      ip: 172.25.204.51'
 
 - name: Remove node2 from kube_control_plane
   ansible.builtin.lineinfile:
