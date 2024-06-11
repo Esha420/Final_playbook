@@ -60,7 +60,7 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '      ansible_user: worker1'
+    insertbefore: '    node3:'
 
 
 - name: Add a line after a specific line
@@ -73,7 +73,7 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '      access_ip: 172.25.204.51'
+    insertbefore: '  children:'
 
 - name: Remove node2 from kube_control_plane
   ansible.builtin.lineinfile:
