@@ -60,6 +60,12 @@
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
+- name: Remove node2 from kube_control_plane
+  ansible.builtin.lineinfile:
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    regexp: '^        node2:$'
+    state: absent
+
 - name: Execute kubespray playbook for cluster setup
   command: ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root cluster.yml
   args:
