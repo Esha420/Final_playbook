@@ -60,7 +60,7 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
-    insertafter: '^ {4}node3:'
+    insertafter: '    node2:'
 
 
 - name: Add a line after a specific line
