@@ -74,6 +74,7 @@
   loop:
     - { insertafter: '      ansible_user: worker2' }
     - { insertafter: '      ansible_user: worker1' }
+    
 
 
 # - name: Execute kubespray playbook for cluster setup
