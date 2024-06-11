@@ -69,7 +69,7 @@
 - name: Add ansible_ssh_private_key_file line
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_ssh_private_key_file: ~/.ssh/id_rsa'
+    line: 'ansible_ssh_private_key_file: ~/.ssh/id_rsa'
     insertafter: "{{ item.insertafter }}"
   loop:
     - { insertafter: '      ansible_user: worker2' }
