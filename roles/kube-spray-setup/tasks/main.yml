@@ -39,7 +39,11 @@
   lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
     line: '      ansible_user: kube-spray'
-    insertafter: '      access_ip: 172.25.204.49'
+    insertafter: "{{ item.insertafter }}"
+  loop:
+    - { insertafter: '      access_ip: 172.25.204.49' }
+    - { insertafter: '      ansible_user: worker2' }
+    - { insertafter: '      ansible_user: worker1' }
 
 - name: Add a line before a specific line
   lineinfile:
