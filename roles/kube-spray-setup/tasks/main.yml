@@ -35,72 +35,72 @@
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
-- name: Add a line before a specific line
-  lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_user: kube-spray'
-    insertafter: '      access_ip: 172.25.204.49'
+# - name: Add a line before a specific line
+#   lineinfile:
+#     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+#     line: '      ansible_user: kube-spray'
+#     insertafter: '      access_ip: 172.25.204.49'
 
 
 
-- name: Add a line before a specific line
-  blockinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    block: |
-      ansible_ssh_private_key_file: ~/.ssh/id_rsa
-  loop:
-    - { insertafter: '      ansible_user: kube-spray' }
-    - { insertafter: '      ansible_user: worker2' }
-    - { insertafter: '      ansible_user: worker1' }
+# - name: Add a line before a specific line
+#   blockinfile:
+#     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+#     block: |
+#       ansible_ssh_private_key_file: ~/.ssh/id_rsa
+#   loop:
+#     - { insertafter: '      ansible_user: kube-spray' }
+#     - { insertafter: '      ansible_user: worker2' }
+#     - { insertafter: '      ansible_user: worker1' }
 
   
 
-- name: Add a line before a specific line
-  lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_user: worker1'
-    insertafter: '      access_ip: 172.25.204.50'
+# - name: Add a line before a specific line
+#   lineinfile:
+#     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+#     line: '      ansible_user: worker1'
+#     insertafter: '      access_ip: 172.25.204.50'
  
 
-- name: Add a line after a specific line
-  lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '      ansible_user: worker2'
-    insertafter: '      access_ip: 172.25.204.51'
+# - name: Add a line after a specific line
+#   lineinfile:
+#     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+#     line: '      ansible_user: worker2'
+#     insertafter: '      access_ip: 172.25.204.51'
 
 
-- name: Remove node2 from kube_control_plane
-  ansible.builtin.lineinfile:
-    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    regexp: '^        node2:$'
-    state: absent
+# - name: Remove node2 from kube_control_plane
+#   ansible.builtin.lineinfile:
+#     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+#     regexp: '^        node2:$'
+#     state: absent
 
 
 
-# - name: Execute kubespray playbook for cluster setup
-#   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
-#   args:
-#     chdir: /tmp/kubespray
+- name: Execute kubespray playbook for cluster setup
+  command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
+  args:
+    chdir: /tmp/kubespray
 
-# - name: Create .kube directory
-#   file:
-#     path: "{{ ansible_env.HOME }}/.kube"
-#     state: directory
-#     mode: '0755'
+- name: Create .kube directory
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0755'
 
-# - name: Copy Kubernetes admin.conf to user's kube config
-#   copy:
-#     src: /etc/kubernetes/admin.conf
-#     dest: "{{ ansible_env.HOME }}/.kube/config"
-#     owner: root
-#     group: root
-#     mode: '0644'
-#     remote_src: yes
+- name: Copy Kubernetes admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: "{{ ansible_env.HOME }}/.kube/config"
+    owner: root
+    group: root
+    mode: '0644'
+    remote_src: yes
 
-# - name: Change ownership of kube config
-#   file:
-#     path: "{{ ansible_env.HOME }}/.kube/config"
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0644'
-#   become: true
+- name: Change ownership of kube config
+  file:
+    path: "{{ ansible_env.HOME }}/.kube/config"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  become: true
