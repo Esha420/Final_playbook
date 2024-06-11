@@ -77,6 +77,15 @@
     regexp: '^        node2:$'
     state: absent
 
+- name: Add ansible_ssh_private_key_file line
+  lineinfile:
+    path: /tmp/kubespray/inventory/my-cluster/hosts.yml
+    line: 'ansible_ssh_private_key_file: ~/.ssh/id_rsa'
+    insertafter: "{{ item.insertafter }}"
+  loop:
+    - { insertafter: '      ansible_user: worker2' }
+    - { insertafter: '      ansible_user: worker1' }
+
 
 # - name: Execute kubespray playbook for cluster setup
 #   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
