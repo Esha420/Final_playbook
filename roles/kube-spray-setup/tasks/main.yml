@@ -94,7 +94,7 @@
 - name: Add a line after a specific line
   lineinfile:
     dest: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    line: '{{ item }}'
+    line: "{{ item }}"
     insertafter: '      access_ip: 172.25.204.51'
     with_items:
       - '      ansible_user: worker2'
