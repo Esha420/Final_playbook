@@ -7,11 +7,11 @@ all:
       ansible_password: 12345
     node2:
       ansible_host: 172.25.204.50
-      ansible_user: worker1
+      ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
       ansible_password: 12345
     node3:
       ansible_host: 172.25.204.51
-      ansible_user: worker2
+      ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
       ansible_password: 12345
