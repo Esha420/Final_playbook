@@ -18,7 +18,6 @@
       - netaddr
     state: present
 
-
 - name: Install requirements
   pip:
     requirements: /tmp/kubespray/requirements.txt
@@ -30,34 +29,14 @@
   pip:
     requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
 
-- name: Declare IP addresses
-  ansible.builtin.shell: |
-    declare -a IPS
-    # Read the inventory file and extract IPs
-    while IFS= read -r line; do
-        if [[ $line == *"ansible_host"* ]]; then
-            ip=$(echo "$line" | awk '{print $2}' | tr -d ':')
-            IPS+=("$ip")
-        fi
-    done < machine.yml
-    echo "IP addresses are: ${IPS[@]}"
+- name: Run inventory script
+  shell: |
+    CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py {{ IPS | join(' ') }}
   args:
-    executable: /bin/bash
-
-- name: Ensure the inventory directory exists
-  file:
-    path: /tmp/kubespray/inventory/my-cluster
-    state: directory
-
-- name: Initialize the inventory file
-  ansible.builtin.shell: |
-    CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py ${IPS[@]}
-  args:
-    executable: /bin/bash
-    chdir: /tmp/kubespray
+    chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
 - name: Execute kubespray playbook for cluster setup
-  command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml --become --become-user=root cluster.yml
+  command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
   args:
     chdir: /tmp/kubespray
 
@@ -83,3 +62,5 @@
     group: "{{ ansible_user }}"
     mode: '0644'
   become: true
+
+
