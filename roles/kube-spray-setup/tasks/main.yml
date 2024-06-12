@@ -37,11 +37,11 @@
 
 
 
-- name: Ensure the setup.sh script is executable
+- name: Copy setup.sh to /tmp/kubespray
   file:
-    path: "{{ playbook_dir }}/setup.sh"
+    src: "{{ playbook_dir }}/setup.sh"
+    dest: /tmp/kubespray/setup.sh
     mode: '0755'
-    state: file
   become: true
 
 - name: Execute the setup.sh script
