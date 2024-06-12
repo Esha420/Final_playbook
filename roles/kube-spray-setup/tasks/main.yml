@@ -64,7 +64,7 @@
 
 - name: Execute kubespray playbook for cluster setup
   shell: |
-    ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root cluster.yml
+    ansible-playbook -i inventory/my-cluster/hosts.yml cluster.yml
   args:
     chdir: /tmp/kubespray
 
