@@ -37,19 +37,29 @@
 
 
 
-- name: Ensure the setup.sh script is executable
-  file:
-    path: "{{ playbook_dir }}/setup.sh"
-    mode: '0755'
-    state: file
-  become: true
+# - name: Ensure the setup.sh script is executable
+#   file:
+#     path: "{{ playbook_dir }}/setup.sh"
+#     mode: '0755'
+#     state: file
+#   become: true
 
-- name: Execute the setup.sh script
-  shell: ./setup.sh
+# - name: Execute the setup.sh script
+#   shell: ./setup.sh
+#   args:
+#     chdir: "{{ playbook_dir }}"
+#   become: true
+#   become_user: root
+
+- name: Execute kubespray playbook for cluster setup
+  shell: |
+    ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root /tmp/kubespray/cluster.yml
   args:
-    chdir: "{{ playbook_dir }}"
+    chdir: /tmp/kubespray
   become: true
-  become_user: root
+  become_method: sudo
+
+
 
 
 - name: Create .kube directory
