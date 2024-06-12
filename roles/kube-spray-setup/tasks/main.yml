@@ -47,7 +47,7 @@
 - name: Execute the setup.sh script
   shell: ./setup.sh
   args:
-    chdir: "{{ playbook_dir }}"
+    chdir: /tmp/kubespray
   become: true
   become_user: root
 
