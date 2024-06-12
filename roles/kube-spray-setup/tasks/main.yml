@@ -49,7 +49,7 @@
   args:
     chdir: /tmp/kubespray
   become: true
-  become_user: root
+  become_user: sudo
 
 # - name: Execute kubespray playbook for cluster setup
 #   shell: |
