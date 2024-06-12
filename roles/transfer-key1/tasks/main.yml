@@ -7,8 +7,8 @@
     group: "{{ ansible_user }}"
 
 - name: Accept host key for node2
-  ansible.builtin.shell: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
-  when: inventory_hostname == ansible_host  # Assuming 'node3' is represented by this IP address
+  ansible.builtin.shell: "ssh-keyscan -H {{ ansible_host }} >> ~/.ssh/known_hosts"
+  when: inventory_hostname == 'node2'
 
 - name: Add SSH public key to authorized_keys
   ansible.builtin.lineinfile:
@@ -20,4 +20,4 @@
     mode: '0600'
   vars:
     ansible_ssh_private_key_file: "{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}"
-  when: inventory_hostname == ansible_host
+  when: inventory_hostname == 'node2'
