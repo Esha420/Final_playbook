@@ -38,7 +38,7 @@
 
 
 - name: Copy setup.sh to /tmp/kubespray
-  file:
+  copy:
     src: "{{ playbook_dir }}/setup.sh"
     dest: /tmp/kubespray/setup.sh
     mode: '0755'
