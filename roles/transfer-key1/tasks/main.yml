@@ -6,9 +6,10 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
 
-- name: Accept host key for node2
-  ansible.builtin.shell: "ssh-keyscan -H {{ node1.ansible_host }} >> ~/.ssh/known_hosts"
+- name: Accept host key for node1
+  ansible.builtin.shell: "ssh-keyscan -H {{ hostvars['node1'].ansible_host }} >> ~/.ssh/known_hosts"
   when: inventory_hostname == 'node2'
+
 
 - name: Add SSH public key to authorized_keys
   ansible.builtin.lineinfile:
