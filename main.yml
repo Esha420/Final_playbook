@@ -33,27 +33,27 @@
   roles:
     - transfer-key-2
 
-- name: Become sudo users in all nodes
-  hosts: all
-  remote_user: root
-  become: yes
-  roles:
-    - sudo-user
+# - name: Become sudo users in all nodes
+#   hosts: all
+#   remote_user: root
+#   become: yes
+#   roles:
+#     - sudo-user
 
-- name: Install Python
-  hosts: node1
-  become: yes
-  roles:
-    - python
+# - name: Install Python
+#   hosts: node1
+#   become: yes
+#   roles:
+#     - python
 
-- name: KubeSpray Cluster Setup
-  hosts: node1
-  become: yes
-  vars:
-    IPS:
-      - "172.25.204.49"
-      - "172.25.204.50"
-      - "172.25.204.51"
-    CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
-  roles:
-    - kube-spray-setup
+# - name: KubeSpray Cluster Setup
+#   hosts: node1
+#   become: yes
+#   vars:
+#     IPS:
+#       - "172.25.204.49"
+#       - "172.25.204.50"
+#       - "172.25.204.51"
+#     CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
+#   roles:
+#     - kube-spray-setup
