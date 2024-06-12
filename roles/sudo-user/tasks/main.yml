@@ -1,6 +1,6 @@
 - name: Add passwordless sudo access for kube-spray user
   lineinfile:
     dest: /etc/sudoers
-    line: 'root ALL=(ALL) NOPASSWD: ALL'
+    line: 'kube-spray ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
     state: present
