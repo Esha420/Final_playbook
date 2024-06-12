@@ -36,9 +36,11 @@
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
 - name: Execute kubespray playbook for cluster setup
-  command: ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root cluster.yml
+  shell: |
+    ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root --roles-path=/tmp/kubespray/roles /tmp/kubespray/cluster.yml
   args:
     chdir: /tmp/kubespray
+
 
 - name: Create .kube directory
   file:
