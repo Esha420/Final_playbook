@@ -49,6 +49,12 @@
   args:
     chdir: /tmp/kubespray
   become: true
+  register: command_output
+  ignore_errors: true
+
+- name: Display command output
+  debug:
+    var: command_output
 
 # - name: Execute kubespray playbook for cluster setup
 #   shell: |
