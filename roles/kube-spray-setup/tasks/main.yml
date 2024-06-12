@@ -67,7 +67,7 @@
     state: absent
 
 - name: Execute kubespray playbook for cluster setup
-  command: ansible-playbook -i inventory/my-cluster/hosts.yml --become --become-user=root cluster.yml
+  command: ansible-playbook -i inventory/my-cluster/hosts.yml cluster.yml
   args:
     chdir: /tmp/kubespray
 
