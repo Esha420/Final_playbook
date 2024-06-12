@@ -1,37 +1,37 @@
----
-- name: Generate SSH keys on nodes
-  hosts: all
-  become: yes
+# ---
+# - name: Generate SSH keys on nodes
+#   hosts: all
+#   become: yes
   
-  roles:
-    - key-generate
+#   roles:
+#     - key-generate
 
-- name: Transfer keys to the nodes 1
-  hosts: node1
-  become: yes
-  remote_user: "{{ ansible_user }}"
-  vars:
-    ansible_ssh_private_key_file: "~/.ssh/id_rsa"
-  roles:
-    - transfer-key
+# - name: Transfer keys to the nodes 1
+#   hosts: node1
+#   become: yes
+#   remote_user: "{{ ansible_user }}"
+#   vars:
+#     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+#   roles:
+#     - transfer-key
 
-- name: Transfer keys to the nodes 2
-  hosts: node2
-  become: yes
-  remote_user: "{{ ansible_user }}"
-  vars:
-    ansible_ssh_private_key_file: "~/.ssh/id_rsa"
-  roles:
-    - transfer-key1
+# - name: Transfer keys to the nodes 2
+#   hosts: node2
+#   become: yes
+#   remote_user: "{{ ansible_user }}"
+#   vars:
+#     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+#   roles:
+#     - transfer-key1
 
-- name: Transfer keys to the nodes 3
-  hosts: node3
-  become: yes
-  remote_user: "{{ ansible_user }}"
-  vars:
-    ansible_ssh_private_key_file: "~/.ssh/id_rsa"
-  roles:
-    - transfer-key-2
+# - name: Transfer keys to the nodes 3
+#   hosts: node3
+#   become: yes
+#   remote_user: "{{ ansible_user }}"
+#   vars:
+#     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+#   roles:
+#     - transfer-key-2
 
 # - name: Become sudo users in all nodes
 #   hosts: all
@@ -46,14 +46,14 @@
 #   roles:
 #     - python
 
-# - name: KubeSpray Cluster Setup
-#   hosts: node1
-#   become: yes
-#   vars:
-#     IPS:
-#       - "172.25.204.49"
-#       - "172.25.204.50"
-#       - "172.25.204.51"
-#     CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
-#   roles:
-#     - kube-spray-setup
+- name: KubeSpray Cluster Setup
+  hosts: node1
+  become: yes
+  vars:
+    IPS:
+      - "172.25.204.49"
+      - "172.25.204.50"
+      - "172.25.204.51"
+    CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
+  roles:
+    - kube-spray-setup
