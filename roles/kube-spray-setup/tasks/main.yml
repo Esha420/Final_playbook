@@ -35,11 +35,14 @@
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
+
+
 - name: Ensure the setup.sh script is executable
   file:
     path: "{{ playbook_dir }}/setup.sh"
     mode: '0755'
     state: file
+  become: true
 
 - name: Execute the setup.sh script
   shell: ./setup.sh
