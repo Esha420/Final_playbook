@@ -7,7 +7,7 @@
     group: "{{ ansible_user }}"
 
 - name: Accept host key for node2
-  ansible.builtin.shell: "ssh-keyscan -H {{ ansible_host }} >> ~/.ssh/known_hosts"
+  ansible.builtin.shell: "ssh-keyscan -H {{ node1.ansible_host }} >> ~/.ssh/known_hosts"
   when: inventory_hostname == 'node2'
 
 - name: Add SSH public key to authorized_keys
