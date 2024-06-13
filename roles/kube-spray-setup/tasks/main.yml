@@ -114,6 +114,14 @@
   ansible.builtin.set_fact:
     hosts_content: "{{ hosts_file.content | b64decode | from_yaml }}"
 
+- name: Debug hosts_content structure
+  ansible.builtin.debug:
+    var: hosts_content
+
+- name: Ensure kube_control_plane exists
+  ansible.builtin.set_fact:
+    kube_control_plane: "{{ hosts_content['children'].get('kube_control_plane', {}) }}"
+
 - name: Remove node2 from kube_control_plane group
   ansible.builtin.set_fact:
     updated_hosts_content: >
