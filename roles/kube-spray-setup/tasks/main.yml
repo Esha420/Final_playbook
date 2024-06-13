@@ -128,14 +128,19 @@
       {{
         dict(
           hosts_content,
-          children=dict(
-            hosts_content['children'],
-            kube_control_plane=dict(
-              hosts=hosts_content['children']['kube_control_plane']['hosts'] | select('search', 'node2', 'invert') | list
+          all=dict(
+            hosts_content['all'],
+            children=dict(
+              hosts_content['all']['children'],
+              kube_control_plane=dict(
+                kube_control_plane,
+                hosts=kube_control_plane['hosts'] | reject('equalto', 'node2') | list
+              )
             )
           )
         )
       }}
+
 
 - name: Write updated content back to hosts.yml
   ansible.builtin.copy:
