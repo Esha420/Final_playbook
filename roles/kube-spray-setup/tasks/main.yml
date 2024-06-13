@@ -105,31 +105,32 @@
 #     mode: '0644'
 #   become: true
 
+- name: Read hosts.yml file
+  ansible.builtin.slurp:
+    src: /tmp/kubespray/inventory/my-cluster/hosts.yml
+  register: hosts_file
+
+- name: Parse YAML content
+  ansible.builtin.set_fact:
+    hosts_content: "{{ hosts_file.content | b64decode | from_yaml }}"
+
 - name: Remove node2 from kube_control_plane group
-  ansible.builtin.lineinfile:
-    path: /path/to/your/hosts.yml
-    regexp: '^\s*node2:\s*$'
-    state: absent
-  notify: Update kube_control_plane group
+  ansible.builtin.set_fact:
+    updated_hosts_content: >
+      {{
+        dict(
+          hosts_content,
+          children=dict(
+            hosts_content['children'],
+            kube_control_plane=dict(
+              hosts=hosts_content['children']['kube_control_plane']['hosts'] | select('search', 'node2', 'invert') | list
+            )
+          )
+        )
+      }}
 
-- name: Update kube_control_plane group
-  ansible.builtin.blockinfile:
-    path: /path/to/your/hosts.yml
-    marker: "# {mark} ANSIBLE MANAGED BLOCK"
-    block: |
-      kube_control_plane:
-        hosts:
-          node1:
-  when: "'node2:' not in lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml').splitlines()"
+- name: Write updated content back to hosts.yml
+  ansible.builtin.copy:
+    content: "{{ updated_hosts_content | to_nice_yaml }}"
+    dest: /tmp/kubespray/inventory/my-cluster/hosts.yml
 
-- name: Remove node2 from kube_control_plane group if present
-  ansible.builtin.lineinfile:
-    path: /path/to/your/hosts.yml
-    regexp: '^\s*node2:\s*$'
-    state: absent
-
-- name: Clean up empty lines
-  ansible.builtin.lineinfile:
-    path: /path/to/your/hosts.yml
-    regexp: '^\s*$'
-    state: absent
