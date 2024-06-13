@@ -2,7 +2,8 @@
 - name: Generate SSH keys on nodes
   hosts: all
   become: yes
-  
+  vars:
+    ansible_become_password: "{{ ansible_password }}"
   roles:
     - key-generate
 
