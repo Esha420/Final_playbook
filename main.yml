@@ -16,8 +16,8 @@
   hosts: node1
   become: yes
 - name: Gather IP addresses from inventory
-  set_fact:
-    IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
+
+  IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
 
 - name: Display the IP addresses
   debug:
