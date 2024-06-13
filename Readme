@@ -34,6 +34,7 @@ Similarly ssh into node2 and node3 and copy the public key in root directory.
 - goto your control plane node
 - Run the main playbook to deploy the cluster
     ansible-playbook -i machine.yml main.yml
+    (This step may require some time to run all the steps)
 - Check the nodes with the command
     '''kubectl get nodes'''
-    
+
