@@ -35,8 +35,6 @@
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
-
-
 - name: Copy setup.sh to /tmp/kubespray
   copy:
     src: "{{ playbook_dir }}/setup.sh"
@@ -55,17 +53,6 @@
 - name: Display command output
   debug:
     var: command_output
-
-# - name: Execute kubespray playbook for cluster setup
-#   shell: |
-#     ansible-playbook -i inventory/my-cluster/hosts.yml /tmp/kubespray/cluster.yml
-#   args:
-#     chdir: /tmp/kubespray
-#   become: true
-#   become_method: sudo
-
-
-
 
 - name: Create .kube directory
   file:
