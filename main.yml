@@ -1,28 +1,21 @@
----
-- name: Become sudo users in all nodes
-  hosts: all
-  remote_user: root
-  become: yes
-  roles:
-    - sudo-user
+# ---
+# - name: Become sudo users in all nodes
+#   hosts: all
+#   remote_user: root
+#   become: yes
+#   roles:
+#     - sudo-user
 
-- name: Install Python
-  hosts: node1
-  become: yes
-  roles:
-    - python
+# - name: Install Python
+#   hosts: node1
+#   become: yes
+#   roles:
+#     - python
 
 - name: KubeSpray Cluster Setup
   hosts: node1
   become: yes
-- name: Gather IP addresses from inventory
-
-  IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
-
-- name: Display the IP addresses
-  debug:
-    msg: "IP addresses: {{ IPS }}"
-  # vars:
+  vars:
   #   IPS:
   #     - "172.25.204.49"
   #     - "172.25.204.50"
