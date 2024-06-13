@@ -3,12 +3,16 @@
   hosts: all
   remote_user: root
   become: yes
+  vars:
+    ansible_become_password: "{{ ansible_password }}"
   roles:
     - sudo-user
 
 - name: Install Python
   hosts: node1
   become: yes
+  vars:
+    ansible_become_password: "{{ ansible_password }}"
   roles:
     - python
 
@@ -16,6 +20,7 @@
   hosts: node1
   become: yes
   vars:
+    ansible_become_password: "{{ ansible_password }}"
     CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
   roles:
     - kube-spray-setup
