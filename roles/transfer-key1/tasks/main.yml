@@ -31,14 +31,3 @@
     group: "{{ ansible_user }}"
     mode: '0600'
 
-# - name: Add SSH public key to authorized_keys
-#   ansible.builtin.lineinfile:
-#     path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
-#     line: "{{ lookup('file', '/home/hostvars['node1'].' ~ ansible_user ~ '/.ssh/id_rsa.pub') }}"
-#     create: yes
-#     owner: "{{ ansible_user }}"
-#     group: "{{ ansible_user }}"
-#     mode: '0600'
-#   vars:
-#     ansible_ssh_private_key_file: "{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}"
-#   when: inventory_hostname == 'node2'
