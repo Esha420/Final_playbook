@@ -120,7 +120,7 @@
       kube_control_plane:
         hosts:
           node1:
-  when: "'node2:' not in lookup('file', '/tmp/kubespray/inventoty/my-cluster/hosts.yml').splitlines()"
+  when: "'node2:' not in lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml').splitlines()"
 
 - name: Remove node2 from kube_control_plane group if present
   ansible.builtin.lineinfile:
