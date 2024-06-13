@@ -10,15 +10,35 @@
   ansible.builtin.shell: "ssh-keyscan -H {{ hostvars['node1'].ansible_host }} >> ~/.ssh/known_hosts"
   when: inventory_hostname == 'node2'
 
+- name: Slurp the SSH public key from node1
+  delegate_to: node1
+  slurp:
+    src: "/home/{{ ansible_user }}/.ssh/id_rsa.pub"
+  register: node1_pubkey
 
-- name: Add SSH public key to authorized_keys
-  ansible.builtin.lineinfile:
+- name: Ensure .ssh directory exists on node2
+  file:
+    path: "/home/{{ ansible_user }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: Add SSH public key to authorized_keys on node2
+  lineinfile:
     path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
-    line: "{{ lookup('file', '/home/node1.' ~ ansible_user ~ '/.ssh/id_rsa.pub') }}"
+    line: "{{ node1_pubkey.content | b64decode }}"
     create: yes
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0600'
-  vars:
-    ansible_ssh_private_key_file: "{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}"
-  when: inventory_hostname == 'node2'
+
+# - name: Add SSH public key to authorized_keys
+#   ansible.builtin.lineinfile:
+#     path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+#     line: "{{ lookup('file', '/home/hostvars['node1'].' ~ ansible_user ~ '/.ssh/id_rsa.pub') }}"
+#     create: yes
+#     owner: "{{ ansible_user }}"
+#     group: "{{ ansible_user }}"
+#     mode: '0600'
+#   vars:
+#     ansible_ssh_private_key_file: "{{ hostvars[inventory_hostname].ansible_ssh_private_key_file }}"
+#   when: inventory_hostname == 'node2'
