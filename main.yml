@@ -15,11 +15,18 @@
 - name: KubeSpray Cluster Setup
   hosts: node1
   become: yes
-  vars:
-    IPS:
-      - "172.25.204.49"
-      - "172.25.204.50"
-      - "172.25.204.51"
+- name: Gather IP addresses from inventory
+  set_fact:
+    IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
+
+- name: Display the IP addresses
+  debug:
+    msg: "IP addresses: {{ IPS }}"
+  # vars:
+  #   IPS:
+  #     - "172.25.204.49"
+  #     - "172.25.204.50"
+  #     - "172.25.204.51"
     CONFIG_FILE: "/tmp/kubespray/inventory/my-cluster/hosts.yml"
   roles:
     - kube-spray-setup
