@@ -9,8 +9,8 @@ This guide provides step-by-step instructions to set up a Kubernetes cluster usi
     Here all three instances has username 'kube-spray'.
 ## Steps
 - Clone the repository and navigate into it:
-git clone https://github.com/Esha420/ansible_kubespray.git
-cd ansible_kubespray
+git clone https://github.com/Esha420/Final_playbook.git
+cd Final_playbook
 
 - Edit the machine.ini file to reflect the IP addresses of your nodes. Ensure the IP addresses of node1, node2,and node3 are correctly configured.
 
