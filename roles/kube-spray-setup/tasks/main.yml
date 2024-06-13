@@ -106,7 +106,8 @@
 #   become: true
 
 - name: Remove 'node2' line from kube_control_plane group
-  ansible.builtin.replace:
+  ansible.builtin.lineinfile:
     path: /tmp/kubespray/inventory/my-cluster/hosts.yml
-    regexp: '^(.*\s+)(node2:.+)(kube_control_plane.*)$'
-    replace: ''
+    regexp: '^(\s*)node2:(\s*)$'
+    state: absent
+    backup: yes
