@@ -1,3 +1,18 @@
+- name: Update YUM packages
+  yum:
+    name: "*"
+    state: latest
+  tags:
+    - yum_update
+
+- name: Upgrade YUM packages
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
+  tags:
+    - yum_upgrade
+
 - name: Install Python
   package:
     name: python3
