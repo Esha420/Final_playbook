@@ -43,6 +43,20 @@
   args:
     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
+- name: Copy the remove_node2 script to the remote node
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/update_host.sh"
+    dest: /tmp/kubespray/update_host.sh
+    mode: '0755'
+
+- name: Execute the update host script
+  shell: ./update_host.sh
+  args:
+    chdir: /tmp/kubespray
+  become: true
+  register: command_output
+  ignore_errors: true
+
 - name: Copy setup.sh to /tmp/kubespray
   copy:
     src: "{{ playbook_dir }}/setup.sh"
