@@ -37,7 +37,7 @@
 - name: Install Jinja2
   pip:
     name: jinja2
-    executable: pip
+    executable: pip3
   tags:
     - jinja2
 
