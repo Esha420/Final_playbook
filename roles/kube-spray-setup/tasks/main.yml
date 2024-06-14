@@ -24,10 +24,13 @@
 #     state: present
 #     executable: pip3 --no-ssl
 
-- name: Install requirements
-  pip:
-    requirements: /tmp/kubespray/requirements.txt --no-ssl
+# - name: Install requirements
+#   pip:
+#     requirements: /tmp/kubespray/requirements.txt --no-ssl
 #    executable: pip3
+
+- name: Install requirements from requirements.txt with no SSL verification
+  command: python3 -m pip install -r /tmp/kubespray/requirements.txt --no-ssl
 
 - name: Copy inventory directory
   ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /tmp/kubespray/inventory/my-cluster
