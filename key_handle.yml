@@ -1,4 +1,13 @@
 ---
+- name: Become sudo users in all nodes
+  hosts: all
+  remote_user: root
+  become: yes
+  vars:
+    ansible_become_password: "{{ ansible_password }}"
+  roles:
+    - sudo-user
+    
 - name: Generate SSH keys on nodes
   hosts: all
   become: yes
