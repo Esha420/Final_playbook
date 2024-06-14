@@ -13,7 +13,28 @@
   package:
     name: python-setuptools
     state: present
+- name: Install Python 3.6
+  yum:
+    name: python36
+    state: present
+  tags:
+    - python
 
+- name: Install Python pip
+  yum:
+    name: python-pip
+    state: present
+  tags:
+    - python
+
+- name: Install Jinja2
+  pip:
+    name: jinja2
+    executable: pip2
+  tags:
+    - jinja2
+
+    
 # - name: Install the required Python packages
 #   pip:
 #     name:
