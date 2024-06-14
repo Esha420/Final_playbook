@@ -14,19 +14,19 @@
     name: python-setuptools
     state: present
 
-- name: Install the required Python packages
-  pip:
-    name:
-      - requests
-      - jinja2
-      - pyyaml
-      - netaddr
-    state: present
-    executable: pip3 --no-ssl
+# - name: Install the required Python packages
+#   pip:
+#     name:
+#       - requests
+#       - jinja2
+#       - pyyaml
+#       - netaddr
+#     state: present
+#     executable: pip3 --no-ssl
 
 - name: Install requirements
   pip:
-    requirements: /tmp/kubespray/requirements.txt
+    requirements: /tmp/kubespray/requirements.txt --no-ssl
     executable: pip3
 
 - name: Copy inventory directory
