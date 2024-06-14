@@ -144,13 +144,13 @@
 #     content: "{{ inventory_data | to_yaml }}"
 #     dest: /tmp/kubespray/inventory/my-cluster/hosts.yml
 
-- name: Execute kubespray playbook for cluster setup
-  command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
-  args:
-    chdir: /tmp/kubespray
+# - name: Execute kubespray playbook for cluster setup
+#   command: ansible-playbook -i /tmp/kubespray/inventory/my-cluster/hosts.yml cluster.yml
+#   args:
+#     chdir: /tmp/kubespray
 
-- name: Create .kube directory
-  file:
-    path: "{{ ansible_env.HOME }}/.kube"
-    state: directory
-    mode: '0755'
+# - name: Create .kube directory
+#   file:
+#     path: "{{ ansible_env.HOME }}/.kube"
+#     state: directory
+#     mode: '0755'
