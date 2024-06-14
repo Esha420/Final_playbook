@@ -50,7 +50,8 @@ def remove_node2(inventory_file):
     with open(inventory_file, 'r') as f:
         data = yaml.safe_load(f)
 
-    del data['kube_control_plane']['hosts']['node2']
+    if 'kube_control_plane' in data['all']['children']:
+        del data['all']['children']['kube_control_plane']['hosts']['node2']
 
     with open(inventory_file, 'w') as f:
         yaml.dump(data, f, default_flow_style=False)
