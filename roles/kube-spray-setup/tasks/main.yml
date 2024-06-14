@@ -22,7 +22,7 @@
     - python
 - name: Install Python 3.6
   yum:
-    name: python36
+    name: python3
     state: present
   tags:
     - python
