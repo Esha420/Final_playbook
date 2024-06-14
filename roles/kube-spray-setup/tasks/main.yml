@@ -126,6 +126,7 @@
 - name: Load the inventory file into a variable
   set_fact:
     inventory_file: "{{ lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml') }}"
+  become: true
 
 
 - name: Remove node2 from kube_control_plane group
