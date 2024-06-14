@@ -114,41 +114,41 @@
 #     backup: yes
 
 
-# - name: Copy the remove_node2 script to the remote node
-#   ansible.builtin.copy:
-#     src: "{{ playbook_dir }}/remove_node2.py"
-#     dest: /tmp/remove_node2.py
-#     mode: '0755'
+- name: Copy the remove_node2 script to the remote node
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/remove_node2.py"
+    dest: /tmp/remove_node2.py
+    mode: '0755'
 
-# - name: Execute the remove_node2 script
-#   ansible.builtin.command:
-#     cmd: python3 /tmp/remove_node2.py
-- name: Load the inventory file into a variable
-  set_fact:
-    inventory_file: "{{ lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml') }}"
-  become: true
+- name: Execute the remove_node2 script
+  ansible.builtin.command:
+    cmd: python3 /tmp/remove_node2.py
+# - name: Load the inventory file into a variable
+#   set_fact:
+#     inventory_file: "{{ lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml') }}"
+#   become: true
 
 
-- name: Remove node2 from kube_control_plane group
-  set_fact:
-    inventory_data: >-
-      {{
-        inventory_data | combine({
-          'all': {
-            'children': {
-              'kube_control_plane': {
-                'hosts': inventory_data['all']['children']['kube_control_plane']['hosts'] | dict_exclude('node2')
-              }
-            }
-          }
-        })
-      }}
+# - name: Remove node2 from kube_control_plane group
+#   set_fact:
+#     inventory_data: >-
+#       {{
+#         inventory_data | combine({
+#           'all': {
+#             'children': {
+#               'kube_control_plane': {
+#                 'hosts': inventory_data['all']['children']['kube_control_plane']['hosts'] | dict_exclude('node2')
+#               }
+#             }
+#           }
+#         })
+#       }}
 
-- name: Display the modified inventory data
-  debug:
-    var: inventory_data
+# - name: Display the modified inventory data
+#   debug:
+#     var: inventory_data
 
-- name: Write the modified inventory back to the file
-  copy:
-    content: "{{ inventory_data | to_yaml }}"
-    dest: /tmp/kubespray/inventory/my-cluster/hosts.yml
+# - name: Write the modified inventory back to the file
+#   copy:
+#     content: "{{ inventory_data | to_yaml }}"
+#     dest: /tmp/kubespray/inventory/my-cluster/hosts.yml
