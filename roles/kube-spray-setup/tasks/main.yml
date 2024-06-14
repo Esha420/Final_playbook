@@ -111,9 +111,9 @@
     dest: /tmp/remove_node2.py
     mode: '0755'
 
-- name: Execute the remove_node2 script
-  ansible.builtin.command:
-    cmd: python3 /tmp/remove_node2.py
+# - name: Execute the remove_node2 script
+#   ansible.builtin.command:
+#     cmd: python3 /tmp/remove_node2.py
 # - name: Load the inventory file into a variable
 #   set_fact:
 #     inventory_file: "{{ lookup('file', '/tmp/kubespray/inventory/my-cluster/hosts.yml') }}"
