@@ -9,6 +9,11 @@
     dest: /tmp/kubespray
     version: master
 
+- name: Install setuptools
+  package:
+    name: python-setuptools
+    state: present
+
 - name: Install the required Python packages
   pip:
     name:
