@@ -13,6 +13,13 @@
   package:
     name: python-setuptools
     state: present
+
+- name: Install epel-release
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - python
 - name: Install Python 3.6
   yum:
     name: python36
@@ -34,7 +41,7 @@
   tags:
     - jinja2
 
-    
+
 # - name: Install the required Python packages
 #   pip:
 #     name:
