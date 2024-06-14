@@ -22,10 +22,12 @@
       - pyyaml
       - netaddr
     state: present
+    executable: pip3
 
 - name: Install requirements
   pip:
     requirements: /tmp/kubespray/requirements.txt
+    executable: pip3
 
 - name: Copy inventory directory
   ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /tmp/kubespray/inventory/my-cluster
@@ -33,6 +35,7 @@
 - name: Install requirements
   pip:
     requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
+    executable: pip3
 
 - name: Gather IP addresses from inventory
   set_fact:
