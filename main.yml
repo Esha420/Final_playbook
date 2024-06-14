@@ -8,13 +8,13 @@
 #   roles:
 #     - sudo-user
 
-# - name: Install Python
-#   hosts: node1
-#   become: yes
-#   vars:
-#     ansible_become_password: "{{ ansible_password }}"
-#   roles:
-#     - python
+- name: Install Python
+  hosts: node1
+  become: yes
+  vars:
+    ansible_become_password: "{{ ansible_password }}"
+  roles:
+    - python
 
 - name: KubeSpray Cluster Setup
   hosts: node1
