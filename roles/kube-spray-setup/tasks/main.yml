@@ -112,3 +112,8 @@
 #     insertafter: '^\s*kube_control_plane:\s*$'
 #     state: absent
 #     backup: yes
+- name: Execute the remove_node2 script
+  ansible.builtin.command:
+    cmd: python3 remove_node2.py
+  args:
+    chdir: "{{ playbook_dir }}"
