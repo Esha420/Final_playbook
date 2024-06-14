@@ -4,14 +4,14 @@ all:
       ansible_host: 172.25.204.68
       ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
-      ansible_password: 12345
+      ansible_password: LIS2024
     node2:
       ansible_host: 172.25.204.69
       ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
-      ansible_password: 12345
+      ansible_password: LIS2024
     node3:
-      ansible_host: 172.25.204.70
+      ansible_host: 172.25.204.60
       ansible_user: kube-spray
       ansible_ssh_private_key_file: ~/.ssh/id_rsa
-      ansible_password: 12345
+      ansible_password: LIS2024
