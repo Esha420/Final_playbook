@@ -41,21 +41,22 @@
 import yaml
 
 def remove_node2(inventory_file):
-    """
-    Removes node2 from the kube_control_plane block in the inventory file.
+  """
+  Removes node2 from the kube_control_plane block in the inventory file,
+  preserving existing data in other sections.
 
-    Args:
-      inventory_file (str): Path to the inventory YAML file.
-    """
-    with open(inventory_file, 'r') as f:
-        data = yaml.safe_load(f)
+  Args:
+    inventory_file (str): Path to the inventory YAML file.
+  """
+  with open(inventory_file, 'r') as f:
+    data = yaml.safe_load(f)
 
-    if 'kube_control_plane' in data['all']['children']:
-        if 'node2' in data['all']['children']['kube_control_plane']['hosts']:
-            del data['all']['children']['kube_control_plane']['hosts']['node2']
+  # Check if 'kube_control_plane' exists and has 'hosts' before modification
+  if 'kube_control_plane' in data['all']['children'] and 'hosts' in data['all']['children']['kube_control_plane']:
+    data['all']['children']['kube_control_plane']['hosts'].pop('node2', None)
 
-    with open(inventory_file, 'w') as f:
-        yaml.dump(data, f, default_flow_style=True)
+  with open(inventory_file, 'w') as f:
+    yaml.dump(data, f, default_flow_style=False)
 
 # Example usage
 inventory_file = "/tmp/kubespray/inventory/my-cluster/hosts.yml"  # Replace with your actual inventory file path
