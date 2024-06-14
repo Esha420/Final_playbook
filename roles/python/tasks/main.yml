@@ -31,3 +31,6 @@
     name: pip
     state: latest
     executable: pip3
+
+- name: Upgrade pip and setuptools
+  command: python3 -m pip install --upgrade pip setuptools
