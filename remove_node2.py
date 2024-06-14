@@ -55,7 +55,7 @@ def remove_node2(inventory_file):
             del data['all']['children']['kube_control_plane']['hosts']['node2']
 
     with open(inventory_file, 'w') as f:
-        yaml.dump(data, f, default_flow_style=False)
+        yaml.dump(data, f, default_flow_style=True)
 
 # Example usage
 inventory_file = "/tmp/kubespray/inventory/my-cluster/hosts.yml"  # Replace with your actual inventory file path
