@@ -22,12 +22,6 @@
     name: python3-pip
     state: present
 
-- name: Install EPEL repository (for RHEL/CentOS systems)
-  ansible.builtin.yum:
-    name: epel-release
-    state: present
-  when: ansible_os_family == "RedHat"
-
 - name: Ensure Python 3 and setuptools are installed
   package:
     name: "{{ item }}"
