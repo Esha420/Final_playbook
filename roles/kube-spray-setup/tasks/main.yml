@@ -112,7 +112,14 @@
 #     insertafter: '^\s*kube_control_plane:\s*$'
 #     state: absent
 #     backup: yes
+
+
+- name: Copy the remove_node2 script to the remote node
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/remove_node2.py"
+    dest: /tmp/kubespray/remove_node2.py
+    mode: '0755'
+
 - name: Execute the remove_node2 script
   ansible.builtin.command:
-    cmd: python3 {{ playbook_dir }}/remove_node2.py
-
+    cmd: python3 /tmp/kubespray/remove_node2.py
