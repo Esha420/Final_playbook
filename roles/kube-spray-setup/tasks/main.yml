@@ -38,6 +38,7 @@
   pip:
     name: jinja2
     executable: pip3
+    extra_args: "--trusted-host pypi.python.org --trusted-host pypi.org --trusted-host=files.pythonhosted.org"
   tags:
     - jinja2
 
