@@ -14,15 +14,15 @@
     name: python-setuptools
     state: present
 
-- name: Install the required Python packages
-  pip:
-    name:
-      - requests
-      - jinja2
-      - pyyaml
-      - netaddr
-    state: present
-    executable: pip3
+# - name: Install the required Python packages
+#   pip:
+#     name:
+#       - requests
+#       - jinja2
+#       - pyyaml
+#       - netaddr
+#     state: present
+#     executable: pip3
 
 - name: Install requirements
   pip:
