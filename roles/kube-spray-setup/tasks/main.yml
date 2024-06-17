@@ -3,11 +3,34 @@
     name: git
     state: present
 
+- name: Ensure primary DNS settings are correct
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 8.8.8.8"
+    state: present
+
+- name: Ensure secondary DNS settings are correct
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 8.8.4.4"
+    state: present
+
+- name: Test connectivity to GitHub
+  command: ping -c 4 github.com
+  register: ping_result
+  ignore_errors: true
+
+- name: Fail if unable to reach GitHub
+  fail:
+    msg: "Unable to reach GitHub. Please check network settings."
+  when: ping_result.rc != 0
+
 - name: Clone the Kubespray repository
   git:
     repo: https://github.com/kubernetes-incubator/kubespray.git
     dest: /tmp/kubespray
     version: master
+    force: yes
 
 - name: Install setuptools
   package:
