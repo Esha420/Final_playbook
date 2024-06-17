@@ -2,6 +2,10 @@
 - name: Run bash script to set up SSH keys
   hosts: node1
   tasks:
+    - name: Copy inventory file
+      copy:
+        src: "{{ playbook_dir }}/machine.yml"
+        dest: /tmp/machine.yml
     - name: Copy the setup script to the remote host
       copy:
         src: "{{ playbook_dir }}/root.sh"
