@@ -2,7 +2,7 @@
 
 # Ensure the machine.yml file exists
 if [ ! -f host.txt ]; then
-  echo "machine.yml file not found!"
+  echo "host.txt file not found!"
   exit 1
 fi
 
