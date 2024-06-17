@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Ensure the inventory file exists
@@ -9,6 +8,7 @@ fi
 
 # Extract IPs from the inventory file and create host.txt
 awk '/ansible_host:/ {print $2}' /tmp/machine.yml | tee /tmp/host.txt
+
 # Generate SSH key on 172.25.204.49 and fetch the public key
 KEY_IP="172.25.204.49"
 REMOTE_TMP_FILE="/home/kube-spray/id_rsa_49.pub"
@@ -51,10 +51,9 @@ add_public_key() {
 }
 
 # Nodes
-NODES=("172.25.204.49" "172.25.204.50" "172.25.204.51")
+NODES=("172.25.204.50" "172.25.204.51" "172.25.204.49")
 
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
     add_public_key "$NODE"
 done
-
