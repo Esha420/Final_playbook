@@ -58,5 +58,7 @@ done < /tmp/host.txt
 
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
+    echo "Trying to SSH into $NODE"
+    ssh -o StrictHostKeyChecking=no "$NODE" hostname
     add_public_key "$NODE"
 done
