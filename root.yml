@@ -1,0 +1,12 @@
+---
+- name: Run bash script to set up SSH keys
+  hosts: node1
+  tasks:
+    - name: Copy the setup script to the remote host
+      copy:
+        src: setup_ssh_key.sh
+        dest: /tmp/root.sh
+        mode: '0755'
+
+    - name: Execute the setup script
+      command: /tmp/root.sh
