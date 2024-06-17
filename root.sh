@@ -58,18 +58,14 @@ function valid_ip() {
   return $stat
 }
 
-# # Loop through each IP and add id_rsa_49.pub to authorized_keys
-# while IFS= read -r IP; do
-#   if valid_ip "$IP"; then
-#     cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys > /dev/null"
-#     if [ $? -ne 0 ]; then
-#       echo "Failed to add public key to $IP"
-#     fi
-#   else
-#     echo "Invalid IP address: $IP"
-#   fi
-# done < /tmp/host.txt
-
+# Loop through each IP and add id_rsa_49.pub to authorized_keys
 while IFS= read -r IP; do
-  cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys > /dev/null"
+  if valid_ip "$IP"; then
+    cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys > /dev/null"
+    if [ $? -ne 0 ]; then
+      echo "Failed to add public key to $IP"
+    fi
+  else
+    echo "Invalid IP address: $IP"
+  fi
 done < /tmp/host.txt
