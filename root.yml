@@ -4,8 +4,8 @@
   tasks:
     - name: Copy inventory file
       copy:
-        src: "{{ playbook_dir }}/machine.yml"
-        dest: /tmp/machine.yml
+        src: "{{ playbook_dir }}/root.txt"
+        dest: /tmp/root.txt
     - name: Copy the setup script to the remote host
       copy:
         src: "{{ playbook_dir }}/root.sh"
