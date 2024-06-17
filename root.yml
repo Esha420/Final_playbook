@@ -4,7 +4,7 @@
   tasks:
     - name: Copy the setup script to the remote host
       copy:
-        src: setup_ssh_key.sh
+        src: "{{ playbook_dir }}/root.sh"
         dest: /tmp/root.sh
         mode: '0755'
 
