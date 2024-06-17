@@ -4,7 +4,7 @@
   tasks:
     - name: Copy inventory file
       copy:
-        src: "{{ playbook_dir }}/root.txt"
+        src: "{{ playbook_dir }}/host.txt"
         dest: /tmp/root.txt
     - name: Copy the setup script to the remote host
       copy:
