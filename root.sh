@@ -70,7 +70,7 @@ while IFS= read -r IP; do
   echo "Processing IP: $IP"
   if valid_ip "$IP"; then
     echo "Valid IP: $IP"
-    cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys"
+    ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys < /tmp/id_rsa_49.pub"
     if [ $? -ne 0 ]; then
       echo "Failed to add public key to $IP"
     fi
