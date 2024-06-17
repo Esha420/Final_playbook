@@ -11,7 +11,7 @@ awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 KEY_IP="172.25.204.49"
-REMOTE_TMP_FILE="/tmp/id_rsa_49.pub"
+REMOTE_TMP_FILE="/home/kube-spray/id_rsa_49.pub"
 
 ssh -T kube-spray@$KEY_IP << 'EOF'
   sudo su - << 'EOSU'
@@ -21,7 +21,7 @@ ssh -T kube-spray@$KEY_IP << 'EOF'
       echo "Failed to generate SSH key" >&2
       exit 1
     fi
-    cat /root/.ssh/id_rsa.pub > /tmp/id_rsa_49.pub
+    cat /root/.ssh/id_rsa.pub > /home/kube-spray/id_rsa_49.pub
     if [ $? -ne 0 ]; then
       echo "Failed to write public key to temporary file" >&2
       exit 1
