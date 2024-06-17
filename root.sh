@@ -52,15 +52,18 @@ function valid_ip() {
     IFS='.'
     ip=($ip)
     IFS=$OIFS
-    [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
-    stat=$?
+    if [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]; then
+      stat=0
+    fi
   fi
   return $stat
 }
 
 # Loop through each IP and add id_rsa_49.pub to authorized_keys
 while IFS= read -r IP; do
+  echo "Processing IP: $IP"
   if valid_ip "$IP"; then
+    echo "Valid IP: $IP"
     cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys > /dev/null"
     if [ $? -ne 0 ]; then
       echo "Failed to add public key to $IP"
