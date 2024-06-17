@@ -18,6 +18,8 @@ fi
 
 echo "IP address of node1: $KEY_IP"
 
+echo "$Key_IP"
+
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
 REMOTE_TMP_FILE="/home/kube-spray/id_rsa_49.pub"
