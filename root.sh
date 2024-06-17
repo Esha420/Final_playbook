@@ -47,6 +47,8 @@ function valid_ip() {
   local ip=$1
   local stat=1
 
+  echo "Validating IP: $ip"
+
   if [[ $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
     OIFS=$IFS
     IFS='.'
