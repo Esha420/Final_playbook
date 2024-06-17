@@ -9,21 +9,21 @@ fi
 # Extract IPs from the inventory file and create host.txt
 awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 
-KEY_IP=$(awk '/^ *node1:/{f=1} f&&/ansible_host:/{print $2; exit}' /tmp/machine.yml)
+node1=$(awk '/^ *node1:/{f=1} f&&/ansible_host:/{print $2; exit}' /tmp/machine.yml)
 
 if [ -z "$KEY_IP" ]; then
   echo "IP address for node1 not found in machine.yml"
   exit 1
 fi
 
-echo "$KEY_IP"
+echo "$node1"
 
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
 REMOTE_TMP_FILE="/home/kube-spray/id_rsa_49.pub"
 
-ssh -T kube-spray@$KEY_IP << 'EOF'
+ssh -T kube-spray@$node1 << 'EOF'
   sudo su - << 'EOSU'
     cd /root
     yes y | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
@@ -40,9 +40,9 @@ EOSU
 EOF
 
 # Fetch the public key from the remote machine
-scp kube-spray@$KEY_IP:$REMOTE_TMP_FILE /tmp/id_rsa_49.pub
+scp kube-spray@$node1:$REMOTE_TMP_FILE /tmp/id_rsa_49.pub
 if [ $? -ne 0 ]; then
-  echo "Failed to fetch the public key from $KEY_IP"
+  echo "Failed to fetch the public key from $node1"
   exit 1
 fi
 
