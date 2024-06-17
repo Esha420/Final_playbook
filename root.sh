@@ -50,8 +50,12 @@ add_public_key() {
     cat "$PUBLIC_KEY" | ssh "$1" "sudo sh -c 'mkdir -p /root/.ssh && cat >> /root/.ssh/authorized_keys'"
 }
 
+NODES=()
+while IFS= read -r line; do
+    NODES+=("$line")
+done < /tmp/host.txt
 # Nodes
-NODES=("172.25.204.50" "172.25.204.51" "172.25.204.49")
+#NODES=("172.25.204.50" "172.25.204.51" "172.25.204.49")
 
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
