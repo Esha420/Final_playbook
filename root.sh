@@ -7,7 +7,7 @@ if [ ! -f /tmp/machine.yml ]; then
 fi
 
 # Extract IPs from the inventory file and create host.txt
-awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
+awk '/ansible_host:/ {print $2}' /tmp/machine.yml | tee /tmp/host.txt
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 KEY_IP="172.25.204.49"
@@ -44,14 +44,16 @@ fi
 
 PUBLIC_KEY="/tmp/id_rsa_49.pub"
 
-# Read IPs from host.txt and add them to the NODES array
-NODES=()
-while IFS= read -r line; do
-    NODES+=("$line")
-done < /tmp/host.txt
+# Function to add the public key to the authorized_keys file on a node
+add_public_key() {
+    echo "Adding public key to $1"
+    cat "$PUBLIC_KEY" | ssh "$1" "sudo sh -c 'mkdir -p /root/.ssh && cat >> /root/.ssh/authorized_keys'"
+}
+
+# Nodes
+NODES=("172.25.204.50" "172.25.204.51" "172.25.204.49")
 
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
-    echo "Adding public key to $NODE"
-    cat "$PUBLIC_KEY" | ssh "$NODE" "sudo sh -c 'mkdir -p /root/.ssh && cat >> /root/.ssh/authorized_keys'"
+    add_public_key "$NODE"
 done
