@@ -16,9 +16,8 @@ if [ -z "$KEY_IP" ]; then
   exit 1
 fi
 
-echo "IP address of node1: $KEY_IP"
+echo "$KEY_IP"
 
-echo "$Key_IP"
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
