@@ -13,4 +13,6 @@
         mode: '0755'
 
     - name: Execute the setup script
-      command: /tmp/root.sh
+      command: ./root.sh
+      args:
+        chdir: /tmp
