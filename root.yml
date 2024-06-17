@@ -5,7 +5,7 @@
     - name: Copy inventory file
       copy:
         src: "{{ playbook_dir }}/host.txt"
-        dest: /tmp/root.txt
+        dest: /tmp/host.txt
     - name: Copy the setup script to the remote host
       copy:
         src: "{{ playbook_dir }}/root.sh"
