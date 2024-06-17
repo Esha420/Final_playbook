@@ -7,8 +7,7 @@ if [ ! -f /tmp/machine.yml ]; then
 fi
 
 # Extract IPs from the inventory file and create host.txt
-awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
-
+awk '/ansible_host:/ {print $2}' /tmp/machine.yml | tee /tmp/host.txt
 # Generate SSH key on 172.25.204.49 and fetch the public key
 KEY_IP="172.25.204.49"
 REMOTE_TMP_FILE="/home/kube-spray/id_rsa_49.pub"
