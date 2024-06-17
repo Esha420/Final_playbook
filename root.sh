@@ -19,6 +19,12 @@ ssh -T kube-spray@$KEY_IP << 'EOF'
 EOSU
 EOF > /tmp/id_rsa_49.pub
 
+# Check if the public key was fetched successfully
+if [ ! -f /tmp/id_rsa_49.pub ]; then
+  echo "Failed to fetch the public key from $KEY_IP"
+  exit 1
+fi
+
 # Loop through each IP and add id_rsa_49.pub to authorized_keys
 while IFS= read -r IP; do
   cat /tmp/id_rsa_49.pub | ssh -T kube-spray@$IP "sudo tee -a /root/.ssh/authorized_keys > /dev/null"
