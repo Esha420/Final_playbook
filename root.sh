@@ -12,7 +12,7 @@ awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 # Generate SSH key on 172.25.204.49 and fetch the public key
 KEY_IP="172.25.204.49"
 ssh -T kube-spray@$KEY_IP << 'EOF'
-  sudo su << 'EOSU'
+  sudo su - << 'EOSU'
     cd /root
     yes y | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
     cat /root/.ssh/id_rsa.pub
