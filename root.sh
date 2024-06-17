@@ -44,12 +44,6 @@ fi
 
 PUBLIC_KEY="/tmp/id_rsa_49.pub"
 
-# Function to add the public key to the authorized_keys file on a node
-add_public_key() {
-    echo "Adding public key to $1"
-    cat "$PUBLIC_KEY" | ssh "$1" "sudo sh -c 'mkdir -p /root/.ssh && cat >> /root/.ssh/authorized_keys'"
-}
-
 # Read IPs from host.txt and add them to the NODES array
 NODES=()
 while IFS= read -r line; do
@@ -58,7 +52,6 @@ done < /tmp/host.txt
 
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
-    echo "Trying to SSH into $NODE"
-    ssh -o StrictHostKeyChecking=no "$NODE" hostname
-    add_public_key "$NODE"
+    echo "Adding public key to $NODE"
+    cat "$PUBLIC_KEY" | ssh "$NODE" "sudo sh -c 'mkdir -p /root/.ssh && cat >> /root/.ssh/authorized_keys'"
 done
