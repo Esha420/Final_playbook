@@ -7,6 +7,7 @@ This guide provides step-by-step instructions to set up a Kubernetes cluster usi
     - 172.25.204.51
 
     Here all three instances has username 'kube-spray'.
+    You can have a ansible host server but ensure that the ansible server is connected to you node servers.
 ## Steps
 - Clone the repository and navigate into it:
 git clone https://github.com/Esha420/Final_playbook.git
