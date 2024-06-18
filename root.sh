@@ -42,7 +42,9 @@ PUBLIC_KEY="/home/kube-spray/id_rsa_49.pub"
 # Read IPs from host.txt and add them to the NODES array
 NODES=()
 while IFS= read -r line; do
-    NODES+=("$line")
+    # Remove spaces from the node name
+    clean_line=$(echo "$line" | tr -d '[:space:]')
+    NODES+=("$clean_line")
 done < /tmp/host.txt
 
 echo "Nodes to add the public key:"
@@ -56,5 +58,3 @@ for NODE in "${NODES[@]}"; do
   ssh root@$NODE 
   sudo sh -c "mkdir -p /root/.ssh && cat $PUBLIC_KEY >> /root/.ssh/authorized_keys"
 done
-
-
