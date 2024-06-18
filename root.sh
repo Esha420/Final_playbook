@@ -31,20 +31,13 @@ ssh -T kube-spray@$KEY_IP << 'EOF'
 EOSU
 EOF
 
-# Fetch the public key from the remote machine
-scp kube-spray@$KEY_IP:$REMOTE_TMP_FILE /tmp/id_rsa_49.pub
-if [ $? -ne 0 ]; then
-  echo "Failed to fetch the public key from $KEY_IP"
-  exit 1
-fi
-
 # Check if the public key was fetched successfully
-if [ ! -s /tmp/id_rsa_49.pub ]; then
-  echo "Public key file is empty or not found: /tmp/id_rsa_49.pub"
+if [ ! -s /home/kube-spray/id_rsa_49.pub ]; then
+  echo "Public key file is empty or not found: /home/kube-spray/id_rsa_49.pub"
   exit 1
 fi
 
-PUBLIC_KEY="/tmp/id_rsa_49.pub"
+PUBLIC_KEY="/home/kube-spray/id_rsa_49.pub"
 
 # Read IPs from host.txt and add them to the NODES array
 NODES=()
