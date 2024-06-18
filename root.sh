@@ -9,7 +9,7 @@ fi
 # Extract IPs from the inventory file and create host.txt
 awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 
-KEY_IP=$(awk 'NR==1 {print; exit}' host.txt)
+ KEY_IP=$(awk 'NR==1 {gsub(/[[:space:]]/, ""); print; exit}' host.txt)
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
