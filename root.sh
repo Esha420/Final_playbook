@@ -9,15 +9,7 @@ fi
 # Extract IPs from the inventory file and create host.txt
 awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 
-KEY_IP=$(awk '/^ *node1:/{f=1} f&&/ansible_host:/{print $2; exit}' /tmp/machine.yml)
-
-if [ -z "$KEY_IP" ]; then
-  echo "IP address for node1 not found in machine.yml"
-  exit 1
-fi
-
-echo "$KEY_IP"
-
+KEY_IP=$(awk 'NR==1 {print; exit}' host.txt)
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
