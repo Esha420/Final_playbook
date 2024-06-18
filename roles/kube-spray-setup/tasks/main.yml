@@ -1,108 +1,108 @@
-# - name: Install git
-#   package:
-#     name: git
-#     state: present
+- name: Install git
+  package:
+    name: git
+    state: present
 
-# - name: Ensure primary DNS settings are correct
-#   lineinfile:
-#     path: /etc/resolv.conf
-#     line: "nameserver 8.8.8.8"
-#     state: present
+- name: Ensure primary DNS settings are correct
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 8.8.8.8"
+    state: present
 
-# - name: Ensure secondary DNS settings are correct
-#   lineinfile:
-#     path: /etc/resolv.conf
-#     line: "nameserver 8.8.4.4"
-#     state: present
+- name: Ensure secondary DNS settings are correct
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 8.8.4.4"
+    state: present
 
-# - name: Test connectivity to GitHub
-#   command: ping -c 4 github.com
-#   register: ping_result
-#   ignore_errors: true
+- name: Test connectivity to GitHub
+  command: ping -c 4 github.com
+  register: ping_result
+  ignore_errors: true
 
-# - name: Fail if unable to reach GitHub
-#   fail:
-#     msg: "Unable to reach GitHub. Please check network settings."
-#   when: ping_result.rc != 0
+- name: Fail if unable to reach GitHub
+  fail:
+    msg: "Unable to reach GitHub. Please check network settings."
+  when: ping_result.rc != 0
 
-# - name: Clone the Kubespray repository
-#   git:
-#     repo: https://github.com/kubernetes-incubator/kubespray.git
-#     dest: /tmp/kubespray
-#     version: master
-#     force: yes
+- name: Clone the Kubespray repository
+  git:
+    repo: https://github.com/kubernetes-incubator/kubespray.git
+    dest: /tmp/kubespray
+    version: master
+    force: yes
 
-# - name: Install setuptools
-#   package:
-#     name: python-setuptools
-#     state: present
+- name: Install setuptools
+  package:
+    name: python-setuptools
+    state: present
 
-# - name: Install the required Python packages
-#   pip:
-#     name:
-#       - requests
-#       - jinja2
-#       - pyyaml
-#       - netaddr
-#     state: present
+- name: Install the required Python packages
+  pip:
+    name:
+      - requests
+      - jinja2
+      - pyyaml
+      - netaddr
+    state: present
 
-# - name: Install requirements
-#   pip:
-#     requirements: /tmp/kubespray/requirements.txt
+- name: Install requirements
+  pip:
+    requirements: /tmp/kubespray/requirements.txt
 
-# - name: Copy inventory directory
-#   ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /tmp/kubespray/inventory/my-cluster
+- name: Copy inventory directory
+  ansible.builtin.command: cp -rfp /tmp/kubespray/inventory/sample /tmp/kubespray/inventory/my-cluster
 
-# - name: Install requirements
-#   pip:
-#     requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
+- name: Install requirements
+  pip:
+    requirements: /tmp/kubespray/contrib/inventory_builder/requirements.txt
 
-# - name: Gather IP addresses from inventory
-#   set_fact:
-#     IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
+- name: Gather IP addresses from inventory
+  set_fact:
+    IPS: "{{ groups['all'] | map('extract', hostvars, 'ansible_host') | list }}"
 
-# - name: Display the IP addresses
-#   debug:
-#     msg: "IP addresses: {{ IPS }}"
+- name: Display the IP addresses
+  debug:
+    msg: "IP addresses: {{ IPS }}"
 
-# - name: Run inventory script
-#   shell: |
-#     CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py {{ IPS | join(' ') }}
-#   args:
-#     chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
+- name: Run inventory script
+  shell: |
+    CONFIG_FILE=/tmp/kubespray/inventory/my-cluster/hosts.yml python3 /tmp/kubespray/contrib/inventory_builder/inventory.py {{ IPS | join(' ') }}
+  args:
+    chdir: "/tmp/kubespray"  # Update this path to the location of your kube-spray
 
-# - name: Copy the remove_node2 script to the remote node
-#   ansible.builtin.copy:
-#     src: "{{ playbook_dir }}/update_host.sh"
-#     dest: /tmp/kubespray/update_host.sh
-#     mode: '0755'
+- name: Copy the remove_node2 script to the remote node
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/update_host.sh"
+    dest: /tmp/kubespray/update_host.sh
+    mode: '0755'
 
-# - name: Execute the update host script
-#   shell: ./update_host.sh
-#   args:
-#     chdir: /tmp/kubespray
-#   become: true
-#   register: command_output
-#   ignore_errors: true
+- name: Execute the update host script
+  shell: ./update_host.sh
+  args:
+    chdir: /tmp/kubespray
+  become: true
+  register: command_output
+  ignore_errors: true
 
-# - name: Copy setup.sh to /tmp/kubespray
-#   copy:
-#     src: "{{ playbook_dir }}/setup.sh"
-#     dest: /tmp/kubespray/setup.sh
-#     mode: '0755'
-#   become: true
+- name: Copy setup.sh to /tmp/kubespray
+  copy:
+    src: "{{ playbook_dir }}/setup.sh"
+    dest: /tmp/kubespray/setup.sh
+    mode: '0755'
+  become: true
 
-# - name: Execute the setup.sh script
-#   shell: ./setup.sh
-#   args:
-#     chdir: /tmp/kubespray
-#   become: true
-#   register: command_output
-#   ignore_errors: true
+- name: Execute the setup.sh script
+  shell: ./setup.sh
+  args:
+    chdir: /tmp/kubespray
+  become: true
+  register: command_output
+  ignore_errors: true
 
-# - name: Display command output
-#   debug:
-#     var: command_output
+- name: Display command output
+  debug:
+    var: command_output
 
 - name: Get the home directory of the target user
   command: "echo ~{{ target_user }}"
