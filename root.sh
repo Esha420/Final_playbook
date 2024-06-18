@@ -55,6 +55,6 @@ done
 # Loop through nodes and add public key
 for NODE in "${NODES[@]}"; do
   echo "Adding public key to $NODE"
-  ssh root@$NODE 
+  ssh kube-spray@$NODE 
   sudo sh -c "mkdir -p /root/.ssh && cat $PUBLIC_KEY >> /root/.ssh/authorized_keys"
 done
