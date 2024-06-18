@@ -104,10 +104,6 @@
 #   debug:
 #     var: command_output
 
-- name: Ensure the target user is specified
-  vars:
-    target_user: "{{ ansible_user }}"  # Replace with the specific username if different
-
 - name: Get the home directory of the target user
   command: "echo ~{{ target_user }}"
   register: user_home
