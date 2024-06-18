@@ -104,28 +104,36 @@
 #   debug:
 #     var: command_output
 
-- name: Create .kube directory
+- name: Ensure the target user is specified
+  vars:
+    target_user: "{{ ansible_user }}"  # Replace with the specific username if different
+
+- name: Get the home directory of the target user
+  command: "echo ~{{ target_user }}"
+  register: user_home
+
+- name: Create .kube directory in the user's home directory
   file:
-    path: "{{ ansible_env.HOME }}/.kube"
+    path: "{{ user_home.stdout }}/.kube"
     state: directory
     mode: '0755'
+  become: true
+  become_user: "{{ target_user }}"
 
 - name: Copy Kubernetes admin.conf to user's kube config
   copy:
     src: /etc/kubernetes/admin.conf
-    dest: "{{ ansible_env.HOME }}/.kube/config"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "{{ user_home.stdout }}/.kube/config"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
     mode: '0644'
     remote_src: yes
+  become: true
 
 - name: Change ownership of kube config
   file:
-    path: "{{ ansible_env.HOME }}/.kube/config"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    path: "{{ user_home.stdout }}/.kube/config"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
     mode: '0644'
   become: true
-
-
-
