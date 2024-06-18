@@ -17,19 +17,6 @@ cd Final_playbook
 - Run the playbook to first transfer the keys:
    ansible-playbook -i machine.yml key_handle.yml
 
-## Manual Steps
-Now some manual steps are to be followed to transfer key to root directory of each nodes
-- ssh into first node 
-- '''sudo su'''
-- '''cd /root '''
-- '''ssh-keygen -t rsa'''
-- '''cat /root/.ssh/id_rsa.pub'''
-- copy the displayed key
-- '''nano authorized_keys'''
-- paste the keys
-
-Similarly ssh into node2 and node3 and copy the public key in root directory.
-
 ## Now we need to run the main file for cluster setup
 - goto your control plane node
 - Run the main playbook to deploy the cluster
