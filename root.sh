@@ -10,6 +10,8 @@ fi
 awk '/ansible_host:/ {print $2}' /tmp/machine.yml > /tmp/host.txt
 
  KEY_IP=$(awk 'NR==1 {gsub(/[[:space:]]/, ""); print; exit}' host.txt)
+ KEY_IP1=$(awk 'NR==2 {gsub(/[[:space:]]/, ""); print; exit}' host.txt)
+ KEY_IP2=$(awk 'NR==3 {gsub(/[[:space:]]/, ""); print; exit}' host.txt)
 
 # Generate SSH key on 172.25.204.49 and fetch the public key
 
@@ -40,21 +42,20 @@ fi
 PUBLIC_KEY="/home/kube-spray/id_rsa_49.pub"
 
 # Read IPs from host.txt and add them to the NODES array
-NODES=()
-while IFS= read -r line; do
-    # Remove spaces from the node name
-    clean_line=$(echo "$line" | tr -d '[:space:]')
-    NODES+=("$clean_line")
-done < /tmp/host.txt
+scp kube-spray@$KEY_IP:$REMOTE_TMP_FILE kube-spray@$KEY_IP1:/tmp/id_rsa_49.pub
+ssh -T kube-spray@$KEY_IP1 << 'EOF'
+  sudo su - << 'EOSU'
+    mkdir -p /root/.ssh
+    cat /tmp/id_rsa_49.pub > /home/root/.ssh/authorized_keys
+EOSU
+EOF
 
-echo "Nodes to add the public key:"
-for node in "${NODES[@]}"; do
-    echo "$node"
-done
+scp kube-spray@$KEY_IP:$REMOTE_TMP_FILE kube-spray@$KEY_IP2:/tmp/id_rsa_49.pub
+ssh -T kube-spray@$KEY_IP2 << 'EOF'
+  sudo su - << 'EOSU'
+    mkdir -p /root/.ssh
+    cat /tmp/id_rsa_49.pub > /home/root/.ssh/authorized_keys
+EOSU
+EOF
 
-# Loop through nodes and add public key
-for NODE in "${NODES[@]}"; do
-  echo "Adding public key to $NODE"
-  ssh kube-spray@$NODE "sudo sh -c 'mkdir -p /root/.ssh && cat $PUBLIC_KEY >> /root/.ssh/authorized_keys'"
-done
 
