@@ -114,8 +114,8 @@
   copy:
     src: /etc/kubernetes/admin.conf
     dest: "{{ ansible_env.HOME }}/.kube/config"
-    owner: root
-    group: root
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: '0644'
     remote_src: yes
 
@@ -126,5 +126,6 @@
     group: "{{ ansible_user }}"
     mode: '0644'
   become: true
+
 
 
