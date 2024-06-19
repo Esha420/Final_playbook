@@ -10,8 +10,10 @@ This guide provides step-by-step instructions to set up a Kubernetes cluster usi
     You can have a ansible host server but ensure that the ansible server is connected to you node servers.
 ## Steps
 - Clone the repository and navigate into it:
+
 git clone https://github.com/Esha420/Final_playbook.git
-cd Final_playbook
+
+- cd Final_playbook
 
 - Edit the machine.ini file to reflect the IP addresses of your nodes. Ensure the IP addresses of node1, node2,and node3 are correctly configured.
 
